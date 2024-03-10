@@ -77,7 +77,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)} em até 30 itens não interseccionados (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)}(ou emule uma versão real aproximadamente equivalente) em até 30 itens preferencialmente não sobrepostos (que abranjam toda essa 'disciplina') usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
 
     fetch(url)
         .then(response => {
