@@ -4,14 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
 
-function reenviarRequisicao(url, extrator, callback) {
+function reenviarRequisicao(url, extrator, callback, tentativas = 0) {
     if (tentativas >= 10) {
         alert('Não foi possível obter dados mesmo após 10 tentativas. Tente novamente mais tarde.');
         return;
     }
 
-    const novaUrl = url.replace('question=', 'question=()');
-    fetch(novaUrl)
+    fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Resposta da API não foi OK ao reenviar');
@@ -23,12 +22,12 @@ function reenviarRequisicao(url, extrator, callback) {
             if (resultado && resultado.length > 0) {
                 callback(resultado);
             } else {
-                tentativas++;
-                reenviarRequisicao(url, extrator, callback);
+                setTimeout(() => reenviarRequisicao(url, extrator, callback, tentativas + 1), 1000);
             }
         })
         .catch(error => {
             console.error('Erro ao reenviar a solicitação para a API:', error);
+            setTimeout(() => reenviarRequisicao(url, extrator, callback, tentativas + 1), 1000);
         });
 }
 
@@ -49,7 +48,7 @@ function mostrarTituloEIntroducao() {
     document.body.appendChild(titulo);
 
     const introducao = document.createElement('p');
-    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas.";
+    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas...";
     document.body.appendChild(introducao);
 }
 
@@ -58,7 +57,7 @@ function inicializarPrimeiroCard() {
     const card = document.createElement('div');
     card.innerHTML = `
         <div style="border-radius: 10px; padding: 20px; margin-top: 20px;">
-            <p>Por favor, digite a disciplina e o nível de ensino (ensino médio, graduação, mestrado, etc) <br> para a qual estaremos gerando o seu plano de aula:</p>
+            <p>Digite a disciplina para a qual estaremos gerando o seu plano de aula:</p>
             <input type="text" id="disciplinaInput" placeholder="Disciplina">
             <button id="avancar1">Avançar</button>
         </div>
@@ -77,7 +76,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=(para ajudar um professor)[[divida didaticamente] a Disciplina de [( ${encodeURIComponent(disciplina)} )] ou sua versão real aproximada] em até 30 itens de preferência não  sobrepostos (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>...] mantendo-se no nível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)(tente o melhor que puder para dar os 30 itens)`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina(ou uma emulação do que é essa disciplina em sua versão real[considere que é para o último ano de ensino médio ou primeiro ano de graduação] se existisse) chamada pelo usuário de ${encodeURIComponent(disciplina)} em até 30 itens (que abranjam todos os aspectos da disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>...<30>item 30</30>`;
 
     fetch(url)
         .then(response => {
