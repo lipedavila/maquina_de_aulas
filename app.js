@@ -47,7 +47,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20Tópicos_Fundamentais/Capítulos/Partes_Principais%20usando%20as%20strings%20%3C1%3E%20item%201%3C/%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question=[particione%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens(que cubram todo o espectro de conteúdos)%20usando%20as%20strings%20%3C1%3E%20item%201%3C/%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 
     fetch(url)
         .then(response => {
