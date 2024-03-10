@@ -58,7 +58,7 @@ function inicializarPrimeiroCard() {
     const card = document.createElement('div');
     card.innerHTML = `
         <div style="border-radius: 10px; padding: 20px; margin-top: 20px;">
-            <p>Digite a disciplina e o nível de ensino (ensino médio, graduação, mestrado, etc) <br> para a qual estaremos gerando o seu plano de aula:</p>
+            <p>Por favor, digite a disciplina e o nível de ensino (ensino médio, graduação, mestrado, etc) <br> para a qual estaremos gerando o seu plano de aula:</p>
             <input type="text" id="disciplinaInput" placeholder="Disciplina">
             <button id="avancar1">Avançar</button>
         </div>
