@@ -7,6 +7,7 @@ let topicosSelecionados = [];
 let subtopicosSelecionados = [];
 let tempo = '';
 let especificidade = '';
+let tentativa = 1;
 
 function iniciarApp() {
     mostrarTituloEIntroducao();
@@ -27,7 +28,7 @@ function inicializarPrimeiroCard() {
     limparConteudoAnterior();
     const card = document.createElement('div');
     card.innerHTML = `
-        <div style="border-radius: 10px; padding: 20px; margin-top: 20px;">
+        <div style="border-radius: 10px; padding: 20px; margin-top: 20px; background-color: #f0f0f0;">
             <p>Digite a disciplina para a qual estaremos gerando o seu plano de aula:</p>
             <input type="text" id="disciplinaInput" placeholder="Disciplina">
             <button id="avancar1">Avançar</button>
@@ -36,7 +37,7 @@ function inicializarPrimeiroCard() {
     document.body.appendChild(card);
 
     document.getElementById('avancar1').addEventListener('click', function() {
-        disciplina = document.getElementById('disciplinaInput').value;
+        disciplina = document.getElementById('disciplinaInput').value.trim();
         if (disciplina) {
             requisitarTopicos();
         } else {
@@ -45,51 +46,90 @@ function inicializarPrimeiroCard() {
     });
 }
 
+function mostrarLoading() {
+    limparConteudoAnterior();
+    const loading = document.createElement('div');
+    loading.innerHTML = 'Carregando... <div id="loadingBar">[ Ativando Máquinas AulaTotal.com.br ]</div>';
+    document.body.appendChild(loading);
+    animateLoadingBar();
+}
+
+function animateLoadingBar() {
+    let loadingBar = document.getElementById('loadingBar');
+    if (!loadingBar) return;
+    let state = 0;
+    const states = ['Aguarde um segundinho.', 'Estamos trabalhando.', 'Nossas máquinas já vão lhe atender.', 'AulaTotal.com.br'];
+    const interval = setInterval(() => {
+        if (!document.getElementById('loadingBar')) {
+            clearInterval(interval);
+            return;
+        }
+        loadingBar.textContent = states[state];
+        state = (state + 1) % states.length;
+    }, 500);
+}
+
+function limparConteudoAnterior() {
+    while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+    }
+}
+
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3E%20item%201%3C/%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 
+    fetchRetry(url, 'topico', extrairTopicos, mostrarSegundoCard);
+}
+
+function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
     fetch(url)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Resposta da API não foi OK');
-            }
+            if (!response.ok) throw new Error('Resposta da API não foi OK');
             return response.json();
         })
         .then(data => {
-            const topicos = extrairTopicos(data);
-            if (topicos && topicos.length > 0) {
-                mostrarSegundoCard(topicos);
+            const itens = extrairFn(data);
+            if (itens.length > 0) {
+                sucessoFn(itens);
             } else {
-                throw new Error('Nenhum tópico encontrado');
+                throw new Error('Nenhum item encontrado');
             }
         })
         .catch(error => {
-            console.error('Erro ao buscar dados:', error);
+            console.error(`Erro ao buscar dados (${tipo}):`, error);
+            if (tentativas < 10) {
+                setTimeout(() => {
+                    fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas + 1);
+                }, 1000);
+            } else {
+                mostrarMensagemErro();
+            }
         });
 }
 
-function mostrarLoading() {
-    limparConteudoAnterior();
-    const loading = document.createElement('p');
-    loading.textContent = 'Carregando...';
-    document.body.appendChild(loading);
+function extrairTopicos(data) {
+    const regex = /<(\d+)>(.*?)<\/\1>/g;
+    let match;
+    const topicos = [];
+    while ((match = regex.exec(data.reply)) !== null) {
+        topicos.push(match[2]);
+    }
+    return topicos;
 }
 
 function mostrarSegundoCard(topicos) {
     limparConteudoAnterior();
     const card = document.createElement('div');
-    let topicosHTML = `<h3>Escolha os tópicos dentro de sua disciplina:</h3>`;
+    card.innerHTML = '<h3>Escolha os tópicos dentro de sua disciplina:</h3>';
     topicos.forEach((topico, index) => {
-        topicosHTML += `<div><input type="checkbox" id="topico-${index}" value="${topico}"> ${topico}</div>`;
+        card.innerHTML += `<div><input type="checkbox" id="topico-${index}" value="${topico}"> ${topico}</div>`;
     });
-    topicosHTML += `<button id="avancar2">Avançar</button>`;
-
-    card.innerHTML = topicosHTML;
+    card.innerHTML += '<button id="avancar2">Avançar</button>';
     document.body.appendChild(card);
 
     document.getElementById('avancar2').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('[id^="topico-"]:checked');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         if (checkboxes.length === 0) {
             alert('Por favor, selecione pelo menos um tópico.');
             return;
@@ -100,39 +140,15 @@ function mostrarSegundoCard(topicos) {
     });
 }
 
-function extrairTopicos(data) {
-    // Ajuste de acordo com a estrutura da resposta da sua API
-    const regex = /<(\d+)>(.*?)<\/\1>/g;
-    let match;
-    const topicos = [];
-    while ((match = regex.exec(data.reply)) !== null) {
-        topicos.push(match[2]);
-    }
-    return topicos;
-}
-
 function requisitarSubtopicos() {
     mostrarLoading();
-    const topicosFormatados = topicosSelecionados.join(';');
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=?question={Forneça lista de 10 subitens para cada item da lista [${encodeURIComponent(topicosFormatados)}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const subtopicos = extrairSubtopicos(data);
-            if (subtopicos && subtopicos.length > 0) {
-                mostrarCardSubtopicos(subtopicos);
-            } else {
-                throw new Error('Nenhum subtópico encontrado');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao buscar dados:', error);
-        });
+    fetchRetry(url, 'subtopico', extrairSubtopicos, mostrarCardSubtopicos);
 }
 
 function extrairSubtopicos(data) {
-    // Ajuste de acordo com a estrutura da resposta da sua API
     const regex = /<c(\d+)>(.*?)<\/c\1>/g;
     let match;
     const subtopicos = [];
@@ -145,17 +161,15 @@ function extrairSubtopicos(data) {
 function mostrarCardSubtopicos(subtopicos) {
     limparConteudoAnterior();
     const card = document.createElement('div');
-    let subtopicosHTML = `<h3>Escolha os subtópicos dentro dos tópicos selecionados:</h3>`;
+    card.innerHTML = '<h3>Escolha os subtópicos dentro dos tópicos selecionados:</h3>';
     subtopicos.forEach((subtopico, index) => {
-        subtopicosHTML += `<div><input type="checkbox" id="subtopico-${index}" value="${subtopico}"> ${subtopico}</div>`;
+        card.innerHTML += `<div><input type="checkbox" id="subtopico-${index}" value="${subtopico}"> ${subtopico}</div>`;
     });
-    subtopicosHTML += `<button id="avancarSubtopicos">Avançar</button>`;
-
-    card.innerHTML = subtopicosHTML;
+    card.innerHTML += '<button id="avancarSubtopicos">Avançar</button>';
     document.body.appendChild(card);
 
     document.getElementById('avancarSubtopicos').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('[id^="subtopico-"]:checked');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         if (checkboxes.length === 0) {
             alert('Por favor, selecione pelo menos um subtópico.');
             return;
@@ -190,11 +204,13 @@ function mostrarCardAjustesFinais() {
     });
 }
 
+
+
 function finalizarPlanoDeAula() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} focalizando os subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
+    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
 
     fetch(urlFinal)
         .then(response => {
@@ -211,7 +227,6 @@ function finalizarPlanoDeAula() {
         });
 }
 
-
 function apresentarResultadoFinal(data) {
     limparConteudoAnterior();
     const resultado = document.createElement('p');
@@ -219,8 +234,10 @@ function apresentarResultadoFinal(data) {
     document.body.appendChild(resultado);
 }
 
-function limparConteudoAnterior() {
-    while (document.body.firstChild) {
-        document.body.removeChild(document.body.firstChild);
-    }
+
+function mostrarMensagemErro() {
+    limparConteudoAnterior();
+    const erroMsg = document.createElement('p');
+    erroMsg.textContent = "Lamentamos informar que nossas máquinas não conseguiram processar esse pedido.";
+    document.body.appendChild(erroMsg);
 }
