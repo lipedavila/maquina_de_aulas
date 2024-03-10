@@ -1,6 +1,36 @@
+let tentativas = 0;
+
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
+
+function reenviarRequisicao(url, extrator, callback) {
+    if (tentativas >= 10) {
+        alert('Não foi possível obter dados mesmo após 10 tentativas. Tente novamente mais tarde.');
+        return;
+    }
+
+    const novaUrl = url.replace('question=', 'question=()');
+    fetch(novaUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Resposta da API não foi OK ao reenviar');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultado = extrator(data);
+            if (resultado && resultado.length > 0) {
+                callback(resultado);
+            } else {
+                tentativas++;
+                reenviarRequisicao(url, extrator, callback);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao reenviar a solicitação para a API:', error);
+        });
+}
 
 let disciplina = '';
 let topicosSelecionados = [];
@@ -19,7 +49,7 @@ function mostrarTituloEIntroducao() {
     document.body.appendChild(titulo);
 
     const introducao = document.createElement('p');
-    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas...";
+    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas.";
     document.body.appendChild(introducao);
 }
 
@@ -28,7 +58,7 @@ function inicializarPrimeiroCard() {
     const card = document.createElement('div');
     card.innerHTML = `
         <div style="border-radius: 10px; padding: 20px; margin-top: 20px;">
-            <p>Digite a disciplina para a qual estaremos gerando o seu plano de aula:</p>
+            <p>Digite a disciplina e o nível de ensino (ensino médio, graduação, mestrado, etc) <br> para a qual estaremos gerando o seu plano de aula:</p>
             <input type="text" id="disciplinaInput" placeholder="Disciplina">
             <button id="avancar1">Avançar</button>
         </div>
@@ -47,7 +77,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)} em 10 itens (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>]`;
+    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)} em até 30 itens não interseccionados (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
 
     fetch(url)
         .then(response => {
