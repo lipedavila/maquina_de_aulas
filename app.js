@@ -1,35 +1,6 @@
-let tentativas = 0;
-
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
-
-function reenviarRequisicao(url, extrator, callback, tentativas = 0) {
-    if (tentativas >= 10) {
-        alert('Não foi possível obter dados mesmo após 10 tentativas. Tente novamente mais tarde.');
-        return;
-    }
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Resposta da API não foi OK ao reenviar');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const resultado = extrator(data);
-            if (resultado && resultado.length > 0) {
-                callback(resultado);
-            } else {
-                setTimeout(() => reenviarRequisicao(url, extrator, callback, tentativas + 1), 1000);
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao reenviar a solicitação para a API:', error);
-            setTimeout(() => reenviarRequisicao(url, extrator, callback, tentativas + 1), 1000);
-        });
-}
 
 let disciplina = '';
 let topicosSelecionados = [];
@@ -76,7 +47,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina(ou uma emulação do que é essa disciplina em sua versão real[considere que é para o último ano de ensino médio ou primeiro ano de graduação] se existisse) chamada pelo usuário de ${encodeURIComponent(disciplina)} em até 30 itens (que abranjam todos os aspectos da disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>...<30>item 30</30>`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3E%20item%201%3C/%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 
     fetch(url)
         .then(response => {
@@ -143,7 +114,7 @@ function extrairTopicos(data) {
 function requisitarSubtopicos() {
     mostrarLoading();
     const topicosFormatados = topicosSelecionados.join(';');
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${encodeURIComponent(topicosFormatados)}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=?question={Forneça lista de 10 subitens para cada item da lista [${encodeURIComponent(topicosFormatados)}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 
     fetch(url)
         .then(response => response.json())
@@ -223,7 +194,7 @@ function finalizarPlanoDeAula() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
+    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} focalizando os subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
 
     fetch(urlFinal)
         .then(response => {
@@ -240,6 +211,7 @@ function finalizarPlanoDeAula() {
         });
 }
 
+
 function apresentarResultadoFinal(data) {
     limparConteudoAnterior();
     const resultado = document.createElement('p');
@@ -252,4 +224,3 @@ function limparConteudoAnterior() {
         document.body.removeChild(document.body.firstChild);
     }
 }
-
