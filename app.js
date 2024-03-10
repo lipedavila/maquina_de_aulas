@@ -75,9 +75,11 @@ function inicializarPrimeiroCard() {
     });
 }
 
+(para%20ajudar%20um%20professor)[[divida%20didaticamente]%20a%20Disciplina%20de%20[( ${encodeURIComponent(disciplina)} )]ou%20sua%20versão%20real%20aproximada]%20em%20até%2030%20itens%20de%20preferência%20não%20%20sobrepostos%20(que%20abranjam%20toda%20a%20disciplina)%20usando%20as%20strings%20<1>item%201</1><2>item%202</2><3>item%203</3><4>item%204</4><5>item%205</5><6>item%206</6><7>item%207</7><8>item%208</8><9>item%209</9><10>item%2010</10>]%20mantendo-se%20no%20vível%20do%20ensino%20informado(ou%20suponha%20primeiro%20semestre%20de%20graduação%20ou%20último%20ano%20do%20ensino%20médio)(tente%20o%20melhor%20que%20puder%20para%20dar%20os%2030%20itens)
+
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)}(ou emule uma versão real aproximadamente equivalente) em até 30 itens preferencialmente não sobrepostos (que abranjam toda essa 'disciplina') usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina de (ou emule uma versão real aproximadamente equivalente) em até 30 itens preferencialmente não sobrepostos (que abranjam toda essa 'disciplina') usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
 
     fetch(url)
         .then(response => {
