@@ -77,7 +77,7 @@ function inicializarPrimeiroCard() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)} em até 30 itens não interseccionados (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[desmembre a Disciplina de ${encodeURIComponent(disciplina)} em até 30 itens não interseccionados (que abranjam toda a disciplina) usando as strings <1>item 1</1><2>item 2</2><3>item 3</3><4>item 4</4><5>item 5</5><6>item 6</6><7>item 7</7><8>item 8</8><9>item 9</9><10>item 10</10>] mantendo-se no vível do ensino informado(ou suponha primeiro semestre de graduação ou último ano do ensino médio)`;
 
     fetch(url)
         .then(response => {
@@ -144,7 +144,7 @@ function extrairTopicos(data) {
 function requisitarSubtopicos() {
     mostrarLoading();
     const topicosFormatados = topicosSelecionados.join(';');
-    const url = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${encodeURIComponent(topicosFormatados)}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${encodeURIComponent(topicosFormatados)}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 
     fetch(url)
         .then(response => response.json())
@@ -224,7 +224,7 @@ function finalizarPlanoDeAula() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    const urlFinal = `https://corsproxy.io/?https://aulatotal.free.beeceptor.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
+    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Planeje uma aula expositiva em mínimos detalhes considerando a disciplina ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que a aula terá o tempo ${encodeURIComponent(tempo)} e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
 
     fetch(urlFinal)
         .then(response => {
