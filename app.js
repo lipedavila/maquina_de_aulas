@@ -151,7 +151,7 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[indo no máximo até 40 subitens]{Forneça lista de subitens (que esgotam todas as questões relativas a) os itens da lista [${topicosFormatados}] referente a ${encodeURIComponent(disciplina)} organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
 
 function extrairSubtopicos(data) {
