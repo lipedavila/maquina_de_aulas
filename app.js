@@ -200,7 +200,24 @@ function criarCardAjustesFinais() {
         <h3>Ajustes Finais</h3>
         <p>Quanto tempo você precisará que tenha a sua aula?</p>
         <input type="text" id="tempoAula" placeholder="Ex: 90 minutos">
-        <p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
+       <p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
+	<div style="font-size: 0.8em; color: #333;">
+  <h4 style="font-size: 1.2em; margin-bottom: 0.5em;">Detalhes Possíveis:</h4>
+  <ul>
+    <li>
+      <strong>Tópico:</strong> <span style="color: #555;">O tópico exato para sua aula;</span>
+    </li>
+    <li>
+      <strong>Série/Grau:</strong> <span style="color: #555;">A série ou grau dos alunos;</span>
+    </li>
+    <li>
+      <strong>Atividades:</strong> <span style="color: #555;">Atividades obrigatórias;</span>
+    </li>
+    <li>
+      <strong>Extras:</strong> <span style="color: #555;">Qualquer detalhe extra.</span>
+    </li>
+  </ul>
+</div>
         <input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
         <button id="finalizarPlano">Finalizar Plano de Aula</button>
     `;
