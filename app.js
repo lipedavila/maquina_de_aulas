@@ -102,7 +102,7 @@ function requisitarTopicos() {
 }
 
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[você é ajudante de preparação de aulas e deve particionar o tema da aula em 10 temas que esgotem o assunto][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -151,7 +151,7 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[forneça os itens de sua resposta entre strings <c1>...</c1> até <cn>...</cn>; onde n é a posição do último item da sua lista]{Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
 
 function extrairSubtopicos(data) {
@@ -214,7 +214,7 @@ function criarCardAjustesFinais() {
       <strong>Atividades:</strong> <span style="color: #555;">Atividades obrigatórias;</span>
     </li>
     <li>
-      <strong>Extras:</strong> <span style="color: #555;">Qualquer detalhe extra.</span>
+      <strong>Extras:</strong> <span style="color: #555;">Qualquer detalhe extra.</span><br>
     </li>
   </ul>
 </div>
