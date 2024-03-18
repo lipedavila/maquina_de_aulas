@@ -102,7 +102,12 @@ function requisitarTopicos() {
 }
 
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[você é ajudante de preparação de aulas e deve particionar o tema da aula em 10 temas que esgotem o assunto][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
+    [divida%20A%20DICIPLINA/pseudodisciplina%20DE%20[${encodeURIComponent(disciplina)}]]
+    %20EM%20AT%C3%89%2040%20ASSUNTOS
+    [para cobrir todas possíveis aulas que um professor pode querer sobre:
+    [[${encodeURIComponent(disciplina)}]]]
+    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C40%3Eitem%2040%3C/40%3E]]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -151,7 +156,16 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[forneça os itens de sua resposta entre strings <c1>...</c1> até <cn>...</cn>; onde n é a posição do último item da sua lista]{Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
+    [
+    DIVIDA%20OS%20TEMAS
+    [[${topicosFormatados}]]
+    %20DA%20DICIPLINA/PSEUDODISCIPLINA%20DE%20
+    [${encodeURIComponent(disciplina)}]
+    ]
+    %20EM%20AT%C3%89%2040%20ASSUNTOS%20QUE%20ABRANGEM%20TUDO%20%20QUE%20UM%20PROFESSOR%20PODERIA%20PRECISAR%20ENSINAR%20EM%20RELAÇÃO%20A
+    [VOCÊ%20DEVE%20COBRIR%20a%20totalidade%20de[[${topicosFormatados}]]%20DA%20DICIPLINA%20DE%20[${encodeURIComponent(disciplina)}]]
+    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3Cc1%3Eitem%201%3C/c1%3E...%3Cc40%3Eitem%2040%3C/c40%3E]]`;
 }
 
 function extrairSubtopicos(data) {
