@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
 
+// Função para atrasar a inicialização do primeiro card em 5 segundos
 function iniciarApp() {
     mostrarTituloEIntroducao();
-    setTimeout(inicializarPrimeiroCard, 5000); // Atrasa a inicialização do primeiro card em 5 segundos
+    setTimeout(inicializarPrimeiroCard, 5000); 
 }
 
 // Funções para mostrar título e introdução
@@ -27,6 +28,8 @@ function criarElementoTexto(tipo, texto, pai) {
     elemento.textContent = texto;
     pai.appendChild(elemento);
 }
+
+
 
 // Função para inicializar o primeiro card
 function inicializarPrimeiroCard() {
@@ -78,7 +81,7 @@ function animateLoadingBar() {
         }
         loadingBar.textContent = states[state];
         state = (state + 1) % states.length;
-    }, 1500);
+    }, 500);
 }
 
 // Utilitários gerais
@@ -101,26 +104,8 @@ function requisitarTopicos() {
     fetchRetry(url, 'topico', extrairTopicos, mostrarSegundoCard);
 }
 
-//Função para gerar saudação aleatorizada.
-function gerarGentileza() {
-    let letras = '';
-    for (let i = 0; i < 10; i++) {
-        letras += String.fromCharCode(Math.floor(Math.random() * 26) + 97); // gera uma letra minúscula aleatória
-    }
-    return `[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}]`;
-}
-
-
 function construirUrlTopicos(disciplina) {
-	const gentileza = gerarGentileza();
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
-    [divida%20A%20DICIPLINA/pseudodisciplina%20DE%20[${encodeURIComponent(disciplina)}]]
-   em tópicos
-    [para cobrir todas possíveis aulas que um professor pode querer sobre:
-    [[${encodeURIComponent(disciplina)}]]]
-    [SUA RESPOSTA DEVE VIR ASSIM[usando as strings de início[<1>;<2>;...] e fim[</1>;</2>;...] <1>item 1</1>...<40>item 40</40>]]`;
-
-	
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -168,17 +153,12 @@ function requisitarSubtopicos() {
 }
 
 function construirUrlSubtopicos(topicos) {
-	const gentileza = gerarGentileza();
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}
-    [VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
-    [para cobrir todas possíveis aulas que o professor em [${gentileza}] pode querer] 
-    [SaBENDO QUE [OS tópicos SELECIONADOS PELO PROFESSOR DA DISCIPLINA/PSEUDODICIPLINA ${encodeURIComponent(disciplina)}] FORAM ${topicosFormatados}]
-    consiga no limite máximo 20 subtópicos
-    [SUA RESPOSTA DEVE VIR ASSIM[usando as strings de início[<1>;<2>;...] e fim[</1>;</2>;...] <1>item 1</1>...<20>item 20</20>]]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
+
 function extrairSubtopicos(data) {
-    const regex = /<(\d+)>(.*?)<\/\1>/g;
+    const regex = /<c(\d+)>(.*?)<\/c\1>/g;
     let match;
     const subtopicos = [];
     while ((match = regex.exec(data.reply)) !== null) {
@@ -221,12 +201,12 @@ function mostrarCardAjustesFinais() {
 function criarCardAjustesFinais() {
     const cardHTML = `
         <h3>Ajustes Finais</h3>
-<p>Quanto tempo você precisará que tenha a sua aula?</p>
-<input type="text" id="tempoAula" placeholder="Ex: 90 minutos">
-<p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
-<div style="font-size: 0.8em; color: #333;">
+        <p>Quanto tempo você precisará que tenha a sua aula?</p>
+        <input type="text" id="tempoAula" placeholder="Ex: 90 minutos">
+        <p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
+	<div style="font-size: 0.8em; color: #333;">
   <h4 style="font-size: 1.2em; margin-bottom: 0.5em;">Detalhes Possíveis:</h4>
-  <ul style="margin-left: 0;">
+  <ul>
     <li>
       <strong>Tópico:</strong> <span style="color: #555;">O tópico exato para sua aula;</span>
     </li>
@@ -237,13 +217,13 @@ function criarCardAjustesFinais() {
       <strong>Atividades:</strong> <span style="color: #555;">Atividades obrigatórias;</span>
     </li>
     <li>
-      <strong>Extras:</strong> <span style="color: #555;">Qualquer detalhe extra.</span><br>
+      <strong>Extras:</strong> <span style="color: #555;">Qualquer detalhe extra.</span>
     </li>
   </ul>
 </div>
-<input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
-<button id="finalizarPlano">Finalizar Plano de Aula</button>
 
+        <input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
+        <button id="finalizarPlano">Finalizar Plano de Aula</button>
     `;
     adicionarHTMLAoCorpo(cardHTML);
     document.getElementById('finalizarPlano').addEventListener('click', finalizarPlanoDeAula);
@@ -269,10 +249,9 @@ function submeterPlanoDeAula() {
 }
 
 function construirUrlFinal() {
-	const gentileza = gerarGentileza();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
   - Objetivos de aprendizagem claros, diferenciáveis entre si, realísticos e engajadores.
   - Estratégias didáticas interativas com métodos de ensino inovadores[explique em detalhes toda estratégia que propuser].
   - Gestão eficaz do tempo de aula, com atividades bem distribuídas[delimite com afinco os tempos de cada parte da aula].
@@ -299,7 +278,7 @@ function mostrarMensagemErro() {
 
 // Função fetchRetry refatorada para tentativas de busca
 function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
-fetch(url, { cache: 'no-store' }) // Adiciona opção para evitar o uso do cache
+    fetch(url, { cache: 'no-store' })
         .then(response => {
             if (!response.ok) throw new Error('Resposta da API não foi OK');
             return response.json();
@@ -312,12 +291,13 @@ fetch(url, { cache: 'no-store' }) // Adiciona opção para evitar o uso do cache
                 throw new Error('Nenhum item encontrado');
             }
         })
-        .catch(error => {
+	
+	            .catch(error => {
             console.error(`Erro ao buscar dados (${tipo}):`, error);
             if (tentativas < 10) {
                 setTimeout(() => {
                     fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas + 1);
-                }, 10000);
+                }, 20000);
             } else {
                 mostrarMensagemErro();
             }
