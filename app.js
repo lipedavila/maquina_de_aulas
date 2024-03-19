@@ -299,7 +299,7 @@ function mostrarMensagemErro() {
 
 // Função fetchRetry refatorada para tentativas de busca
 function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
-    fetch(url)
+fetch(url, { cache: 'no-store' }) // Adiciona opção para evitar o uso do cache
         .then(response => {
             if (!response.ok) throw new Error('Resposta da API não foi OK');
             return response.json();
