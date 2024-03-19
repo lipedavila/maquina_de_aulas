@@ -317,7 +317,7 @@ function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
             if (tentativas < 10) {
                 setTimeout(() => {
                     fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas + 1);
-                }, 1000);
+                }, 10000);
             } else {
                 mostrarMensagemErro();
             }
