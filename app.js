@@ -118,7 +118,9 @@ function construirUrlTopicos(disciplina) {
    em tópicos
     [para cobrir todas possíveis aulas que um professor pode querer sobre:
     [[${encodeURIComponent(disciplina)}]]]
-    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C40%3Eitem%2040%3C/40%3E]]`;
+    [SUA RESPOSTA DEVE VIR ASSIM[usando as strings de início[<1>;<2>;...] e fim[</1>;</2>;...] <1>item 1</1>...<40>item 40</40>]]`;
+
+	
 }
 
 // Função para extrair tópicos da resposta da API
@@ -173,10 +175,10 @@ function construirUrlSubtopicos(topicos) {
     [para cobrir todas possíveis aulas que o professor em [${gentileza}] pode querer] 
     [SaBENDO QUE [OS tópicos SELECIONADOS PELO PROFESSOR DA DISCIPLINA/PSEUDODICIPLINA ${encodeURIComponent(disciplina)}] FORAM ${topicosFormatados}]
     consiga no limite máximo 20 subtópicos
-    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C40%3Eitem%2040%3C/40%3E]]`;
+    [SUA RESPOSTA DEVE VIR ASSIM[usando as strings de início[<1>;<2>;...] e fim[</1>;</2>;...] <1>item 1</1>...<20>item 20</20>]]`;
 }
 function extrairSubtopicos(data) {
-    const regex = /<c(\d+)>(.*?)<\/c\1>/g;
+    const regex = /<(\d+)>(.*?)<\/\1>/g;
     let match;
     const subtopicos = [];
     while ((match = regex.exec(data.reply)) !== null) {
