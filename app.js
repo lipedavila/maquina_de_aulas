@@ -112,7 +112,7 @@ function requisitarTopicos() {
 }
 
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${gerarGentileza}][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -161,7 +161,7 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}]{Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${gerarGentileza}]{Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] dentro da disciplina ${disciplina} organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
 
 function extrairSubtopicos(data) {
