@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function iniciarApp() {
     mostrarTituloEIntroducao();
-    inicializarPrimeiroCard();
+    setTimeout(inicializarPrimeiroCard, 5000); // Atrasa a inicialização do primeiro card em 5 segundos
 }
 
 // Funções para mostrar título e introdução
 function mostrarTituloEIntroducao() {
     criarElementoTexto('h1', 'Máquina Geradora de Aula Expositiva', document.body);
-    criarElementoTexto('p', 'Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas...', document.body);
+    criarElementoTexto('p', 'Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas.', document.body);
 }
 
 function criarElementoTexto(tipo, texto, pai) {
@@ -101,8 +101,19 @@ function requisitarTopicos() {
     fetchRetry(url, 'topico', extrairTopicos, mostrarSegundoCard);
 }
 
+//Função para gerar saudação aleatorizada.
+function gerarGentileza() {
+    let letras = '';
+    for (let i = 0; i < 10; i++) {
+        letras += String.fromCharCode(Math.floor(Math.random() * 26) + 97); // gera uma letra minúscula aleatória
+    }
+    return `[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}]`;
+}
+
+
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
+	const gentileza = gerarGentileza();
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
     [divida%20A%20DICIPLINA/pseudodisciplina%20DE%20[${encodeURIComponent(disciplina)}]]
     %20EM%20AT%C3%89%2040%20ASSUNTOS
     [para cobrir todas possíveis aulas que um professor pode querer sobre:
@@ -155,8 +166,9 @@ function requisitarSubtopicos() {
 }
 
 function construirUrlSubtopicos(topicos) {
+	const gentileza = gerarGentileza();
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
     [
     DIVIDA%20OS%20TEMAS
     [[${topicosFormatados}]]
@@ -212,12 +224,12 @@ function mostrarCardAjustesFinais() {
 function criarCardAjustesFinais() {
     const cardHTML = `
         <h3>Ajustes Finais</h3>
-        <p>Quanto tempo você precisará que tenha a sua aula?</p>
-        <input type="text" id="tempoAula" placeholder="Ex: 90 minutos">
-        <p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
-	<div style="font-size: 0.8em; color: #333;">
+<p>Quanto tempo você precisará que tenha a sua aula?</p>
+<input type="text" id="tempoAula" placeholder="Ex: 90 minutos">
+<p>Tem algum detalhe que julga relevante levar em consideração nesse plano de aula?</p>
+<div style="font-size: 0.8em; color: #333;">
   <h4 style="font-size: 1.2em; margin-bottom: 0.5em;">Detalhes Possíveis:</h4>
-  <ul>
+  <ul style="margin-left: 0;">
     <li>
       <strong>Tópico:</strong> <span style="color: #555;">O tópico exato para sua aula;</span>
     </li>
@@ -232,9 +244,9 @@ function criarCardAjustesFinais() {
     </li>
   </ul>
 </div>
+<input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
+<button id="finalizarPlano">Finalizar Plano de Aula</button>
 
-        <input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
-        <button id="finalizarPlano">Finalizar Plano de Aula</button>
     `;
     adicionarHTMLAoCorpo(cardHTML);
     document.getElementById('finalizarPlano').addEventListener('click', finalizarPlanoDeAula);
@@ -260,9 +272,10 @@ function submeterPlanoDeAula() {
 }
 
 function construirUrlFinal() {
+	const gentileza = gerarGentileza();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
   - Objetivos de aprendizagem claros, diferenciáveis entre si, realísticos e engajadores.
   - Estratégias didáticas interativas com métodos de ensino inovadores[explique em detalhes toda estratégia que propuser].
   - Gestão eficaz do tempo de aula, com atividades bem distribuídas[delimite com afinco os tempos de cada parte da aula].
