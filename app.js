@@ -11,16 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
 
-// Função para atrasar a inicialização do primeiro card em 5 segundos
 function iniciarApp() {
     mostrarTituloEIntroducao();
-    setTimeout(inicializarPrimeiroCard, 5000); 
+    inicializarPrimeiroCard();
 }
 
 // Funções para mostrar título e introdução
 function mostrarTituloEIntroducao() {
-    criarElementoTexto('h1', '', document.body);
-    criarElementoTexto('p', '', document.body);
+    criarElementoTexto('h1', 'Máquina Geradora de Aula Expositiva', document.body);
+    criarElementoTexto('p', 'Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas...', document.body);
 }
 
 function criarElementoTexto(tipo, texto, pai) {
@@ -28,8 +27,6 @@ function criarElementoTexto(tipo, texto, pai) {
     elemento.textContent = texto;
     pai.appendChild(elemento);
 }
-
-
 
 // Função para inicializar o primeiro card
 function inicializarPrimeiroCard() {
@@ -278,7 +275,7 @@ function mostrarMensagemErro() {
 
 // Função fetchRetry refatorada para tentativas de busca
 function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
-    fetch(url, { cache: 'no-store' })
+    fetch(url)
         .then(response => {
             if (!response.ok) throw new Error('Resposta da API não foi OK');
             return response.json();
@@ -291,13 +288,12 @@ function fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas = 1) {
                 throw new Error('Nenhum item encontrado');
             }
         })
-	
-	            .catch(error => {
+        .catch(error => {
             console.error(`Erro ao buscar dados (${tipo}):`, error);
             if (tentativas < 10) {
                 setTimeout(() => {
                     fetchRetry(url, tipo, extrairFn, sucessoFn, tentativas + 1);
-                }, 20000);
+                }, 1000);
             } else {
                 mostrarMensagemErro();
             }
