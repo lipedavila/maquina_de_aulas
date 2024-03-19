@@ -81,14 +81,7 @@ function animateLoadingBar() {
     }, 500);
 }
 
-//Função para gerar saudação aleatorizada.
-function gerarGentileza() {
-    let letras = '';
-    for (let i = 0; i < 10; i++) {
-        letras += String.fromCharCode(Math.floor(Math.random() * 26) + 97); // gera uma letra minúscula aleatória
-    }
-    return `[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}]`;
-}
+
 
 // Utilitários gerais
 function limparConteudoAnterior() {
@@ -112,7 +105,7 @@ function requisitarTopicos() {
 }
 
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${gerarGentileza}][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -161,7 +154,7 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${gerarGentileza}]{Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] dentro da disciplina ${disciplina} organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] dentro da disciplina ${disciplina} organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
 
 function extrairSubtopicos(data) {
@@ -258,7 +251,7 @@ function submeterPlanoDeAula() {
 function construirUrlFinal() {
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[SEJA%20GENTIL%20COM%20O%20PROFESSOR%20${letras}][com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[com 4000 palavras[nem menos nem mais, por favor.]][Desenvolva um plano de aula expositiva altamente detalhado para a disciplina ${disciplina}, abordando os tópicos: ${topicosFormatados} e subitens: ${subtopicosFormatados}. A aula terá duração de ${tempo} e deve atender à especificidade ${especificidade}. Certifique-se de que o plano inclua:
   - Objetivos de aprendizagem claros, diferenciáveis entre si, realísticos e engajadores.
   - Estratégias didáticas interativas com métodos de ensino inovadores[explique em detalhes toda estratégia que propuser].
   - Gestão eficaz do tempo de aula, com atividades bem distribuídas[delimite com afinco os tempos de cada parte da aula].
