@@ -18,8 +18,8 @@ function iniciarApp() {
 
 // Funções para mostrar título e introdução
 function mostrarTituloEIntroducao() {
-    criarElementoTexto('h1', 'Máquina Geradora de Aula Expositiva', document.body);
-    criarElementoTexto('p', 'Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de planos de aulas expositivas.', document.body);
+    criarElementoTexto('h1', '', document.body);
+    criarElementoTexto('p', '', document.body);
 }
 
 function criarElementoTexto(tipo, texto, pai) {
@@ -115,7 +115,7 @@ function construirUrlTopicos(disciplina) {
 	const gentileza = gerarGentileza();
     return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
     [divida%20A%20DICIPLINA/pseudodisciplina%20DE%20[${encodeURIComponent(disciplina)}]]
-    %20EM%20AT%C3%89%2040%20ASSUNTOS
+   em tópicos
     [para cobrir todas possíveis aulas que um professor pode querer sobre:
     [[${encodeURIComponent(disciplina)}]]]
     [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C40%3Eitem%2040%3C/40%3E]]`;
@@ -168,18 +168,13 @@ function requisitarSubtopicos() {
 function construirUrlSubtopicos(topicos) {
 	const gentileza = gerarGentileza();
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}[VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
-    [
-    DIVIDA%20OS%20TEMAS
-    [[${topicosFormatados}]]
-    %20DA%20DICIPLINA/PSEUDODISCIPLINA%20DE%20
-    [${encodeURIComponent(disciplina)}]
-    ]
-    %20EM%20AT%C3%89%2040%20ASSUNTOS%20QUE%20ABRANGEM%20TUDO%20%20QUE%20UM%20PROFESSOR%20PODERIA%20PRECISAR%20ENSINAR%20EM%20RELAÇÃO%20A
-    [VOCÊ%20DEVE%20COBRIR%20a%20totalidade%20de[[${topicosFormatados}]]%20DA%20DICIPLINA%20DE%20[${encodeURIComponent(disciplina)}]]
-    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3Cc1%3Eitem%201%3C/c1%3E...%3Cc40%3Eitem%2040%3C/c40%3E]]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=${gentileza}
+    [VOC%C3%8A%20%C3%89%20AUXILIAR%20DE%20PREPARA%C3%87%C3%83O%20DE%20AULAS]
+    [para cobrir todas possíveis aulas que o professor em [${gentileza}] pode querer] 
+    [SaBENDO QUE [OS tópicos SELECIONADOS PELO PROFESSOR DA DISCIPLINA/PSEUDODICIPLINA ${encodeURIComponent(disciplina)}] FORAM ${topicosFormatados}]
+    consiga no limite máximo 20 subtópicos
+    [SUA%20RESPOSTA%20DEVE%20VIR%20ASSIM[usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C40%3Eitem%2040%3C/40%3E]]`;
 }
-
 function extrairSubtopicos(data) {
     const regex = /<c(\d+)>(.*?)<\/c\1>/g;
     let match;
