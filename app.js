@@ -78,7 +78,7 @@ function animateLoadingBar() {
         }
         loadingBar.textContent = states[state];
         state = (state + 1) % states.length;
-    }, 500);
+    }, 1500);
 }
 
 // Utilitários gerais
