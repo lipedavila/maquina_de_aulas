@@ -81,15 +81,12 @@ function animateLoadingBar() {
     }, 500);
 }
 
-
-
 // Utilitários gerais
 function limparConteudoAnterior() {
     while (document.body.firstChild) {
         document.body.removeChild(document.body.firstChild);
     }
 }
-
 
 function adicionarHTMLAoCorpo(html) {
     const div = document.createElement('div');
@@ -105,7 +102,7 @@ function requisitarTopicos() {
 }
 
 function construirUrlTopicos(disciplina) {
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[você é assistente de professor e deve dividir a disciplina ou pseudo disciplina a seguir em partes quye abordem "tudo" que um professor pode precisar ensinar sobre o assunto][divida%20a%20disciplina%20de%20${encodeURIComponent(disciplina)}%20em%2010%20itens%20usando%20as%20strings%20%3C1%3Eitem%201%3C/1%3E...%3C10%3Eitem%2010%3C/10%3E]`;
 }
 
 // Função para extrair tópicos da resposta da API
@@ -154,7 +151,7 @@ function requisitarSubtopicos() {
 
 function construirUrlSubtopicos(topicos) {
     const topicosFormatados = encodeURIComponent(topicos.join(';'));
-    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] dentro da disciplina ${disciplina} organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    return `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] da disciplina de ${encodeURIComponent(disciplina)} organizando até o máximo de 40 subitens entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
 }
 
 function extrairSubtopicos(data) {
@@ -257,7 +254,7 @@ function construirUrlFinal() {
   - Gestão eficaz do tempo de aula, com atividades bem distribuídas[delimite com afinco os tempos de cada parte da aula].
   - Mostre que tipo de avaliação de feedback instantâneo pode estar sendo implementado no contexto da aula que planejou.
   - Ofereça estratégia que permite flexibilidades para ajustes e improvisos conforme necessário.
-  observação: Organize o plano de forma lógica e sequencial, garantindo que cada atividade esteja alinhada com os objetivos e promova uma aprendizagem significativa e engajadora. Não esqueça de ensinar ao professor todas as atividades que propuser e de estabelecer o modus operandi factível realista e útil.][Use 4000 palavras]`;
+  observação: Organize o plano de forma lógica e sequencial, garantindo que cada atividade esteja alinhada com os objetivos e promova uma aprendizagem significativa e engajadora. Não esqueça de ensinar ao professor todas as atividades que propuser e de estabelecer o modus operandi factível realista e útil.] `;
 }
 
 // Funções para apresentar o resultado final ou erro
