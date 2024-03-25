@@ -213,7 +213,7 @@ function finalizarPlanoDeAula() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Escreva um artigo acadêmico simulado para publicação envolvendo o assunto ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que queremos o número de palavras que é nº=[ ${encodeURIComponent(tempo)} ]  e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
+    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Escreva um artigo acadêmico simulado para publicação envolvendo o assunto ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que queremos o número de palavras que é o máximo possível para nº=[ ${encodeURIComponent(tempo)}  e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
 
     fetch(urlFinal)
         .then(response => {
