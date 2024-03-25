@@ -20,7 +20,7 @@ function mostrarTituloEIntroducao() {
     document.body.appendChild(titulo);
 
     const introducao = document.createElement('p');
-    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de artigos.";
+    introducao.textContent = "Seja bem vindo. Aqui você tem uma implementação de inteligência artificial dedicada à criação de micro-artigos.";
     document.body.appendChild(introducao);
 }
 
@@ -29,8 +29,10 @@ function inicializarPrimeiroCard() {
     const card = document.createElement('div');
     card.innerHTML = `
         <div style="border-radius: 10px; padding: 20px; margin-top: 20px; background-color: #f0f0f0;">
-            <p>Digite o tema ou assunto geral para o qual estaremos escrevendo esse artigo:</p>
-            <input type="text" id="disciplinaInput" placeholder="Tema. Ex.: Covid.">
+            <h3><p>Máquina AulaTotal Para Geração de Micro-Artigo</p></h3><br>
+ 	<p>Digite o tema que deseja abordar em seu micro-artigo no campo abaixo:</p>
+
+           <input type="text" id="disciplinaInput" placeholder="Tema. Ex.: Covid.">
             <button id="avancar1">Avançar</button>
         </div>
     `;
@@ -58,7 +60,7 @@ function animateLoadingBar() {
     let loadingBar = document.getElementById('loadingBar');
     if (!loadingBar) return;
     let state = 0;
-    const states = ['Aguarde um segundinho.', 'Estamos trabalhando.', 'Nossas máquinas já vão lhe atender.', 'AulaTotal.com.br'];
+    const states = ['Máquinas AulaTotal Trabalhando!', 'AulaTotal: O seu portal para suas superaulas.', 'As máquinas AulaTotal já vão lhe atender.', 'Obrigado por Estar com AulaTotal.com.br'];
     const interval = setInterval(() => {
         if (!document.getElementById('loadingBar')) {
             clearInterval(interval);
@@ -66,7 +68,7 @@ function animateLoadingBar() {
         }
         loadingBar.textContent = states[state];
         state = (state + 1) % states.length;
-    }, 500);
+    }, 700);
 }
 
 function limparConteudoAnterior() {
@@ -77,7 +79,7 @@ function limparConteudoAnterior() {
 
 function requisitarTopicos() {
     mostrarLoading();
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[divida%20o%20assunto%20de%20${encodeURIComponent(disciplina)}%20em%2010%20ítens%20que%20permitirão%20completo%20e%20abrangente%20estudo%20total%20do%20assunto.%20responda%20usando%20as%20strings%20de%20inicio%20e%20fim%20assim%20<1>%20texto%20do%20item%201%20</1>%20...%20<10>%20texto%20do%20item%2010%20</10>]`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=[você é auxiliar de escritor e divide um assunto principal em títulos que em conjunto cobrirão possivelmente todas as possíveis abordagens que um artigo poderá desejar abordar sobre o assunto][divida%20o%20assunto%20de%20${encodeURIComponent(disciplina)}%20em%2010%20ítens%20que%20permitirão%20completo%20e%20abrangente%20estudo%20total%20do%20assunto.%20responda%20usando%20as%20strings%20de%20inicio%20e%20fim%20assim%20<1>%20texto%20do%20item%201%20</1>%20...%20<10>%20texto%20do%20item%2010%20</10>]`;
 
     fetchRetry(url, 'topico', extrairTopicos, mostrarSegundoCard);
 }
@@ -121,7 +123,7 @@ function extrairTopicos(data) {
 function mostrarSegundoCard(topicos) {
     limparConteudoAnterior();
     const card = document.createElement('div');
-    card.innerHTML = '<h3>Escolha os tópicos a serem abordados dentro do seu tema:</h3>';
+    card.innerHTML = '<h3>Para nossas máquinas escreverem seu micro-artigo,<br>escolha os tópicos que devem ser abordados:</h3>';
     topicos.forEach((topico, index) => {
         card.innerHTML += `<div><input type="checkbox" id="topico-${index}" value="${topico}"> ${topico}</div>`;
     });
@@ -143,7 +145,7 @@ function mostrarSegundoCard(topicos) {
 function requisitarSubtopicos() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
-    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Forneça lista de 10 subitens para cada item da lista [${topicosFormatados}] organizando entre strings cada subitem assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>}`;
+    const url = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question=considere[você mostra os subitens na forma de temas de estudo com títulos referentes à campos de estudo ou pseudodisciplinas acadêmicas]e[os (no máximo) 20 itens devem cobrir todas as possíveis aulas sobre o assunto] e faça {Forneça lista que desmembra especificidades de estudo sério criando subitens para cada item da lista original [${topicosFormatados}] nascidos do tema [${encodeURIComponent(disciplina)}] organizando entre strings o todo dos subitens em lista única de no máximo 20 ítens assim <c1>primeiro subitem</c1> ... <cn> último subitem </cn>} [os itens são tantos quantos (até 20) precisar para cobrir todas as possíveis aulas sobre o assunto] [as strings são 'c1'; 'c2' ... 'cn' onde n é ´número de subitens] [cada subitem deve vir antecedido por <ck> e sucedido por </ck> onde k é o número do item, 'c1'; 'c2' ... 'cn' onde n é ´número de subitens e k=n para o último item] [não esqueça [você mostra os subitens na forma de temas de estudo com títulos referentes à campos de estudo ou pseudodisciplinas acadêmicas]e[os (no máximo) 20 itens devem cobrir todas as possíveis aulas sobre o assunto]]`;
 
     fetchRetry(url, 'subtopico', extrairSubtopicos, mostrarCardSubtopicos);
 }
@@ -161,7 +163,7 @@ function extrairSubtopicos(data) {
 function mostrarCardSubtopicos(subtopicos) {
     limparConteudoAnterior();
     const card = document.createElement('div');
-    card.innerHTML = '<h3>Escolha os subtópicos dentro dos tópicos selecionados:</h3>';
+    card.innerHTML = '<h3>Para nossas máquinas escreverem seu micro-artigo,<br>escolha agora os subtópicos específicos:</h3>';
     subtopicos.forEach((subtopico, index) => {
         card.innerHTML += `<div><input type="checkbox" id="subtopico-${index}" value="${subtopico}"> ${subtopico}</div>`;
     });
@@ -184,17 +186,18 @@ function mostrarCardAjustesFinais() {
     limparConteudoAnterior();
     const card = document.createElement('div');
     card.innerHTML = `
-        <h3>Ajustes Finais</h3>
-        <p>Qual o número de palavras que você precisa em seu artigo?</p>
-        <input type="text" id="tempoAula"Maximo 4000 Caracteres.">
-        <p>Inclua particularidades a serem levadas em consideração no seu ertigo.</p>
+        <h3>Ajustes Finais do Micro-Artigo</h3>
+<br>
+        <p>Qual o número de palavras que você precisa em seu micro-artigo?</p>
+        <input type="text" id="tempo" placeholder="Obs.: Máximo de 4000 Caracteres(+/-).">
+        <p>Inclua particularidades que nossas máquinas precisam levar em consideração no seu micro-artigo.</p>
         <input type="text" id="detalhesAula" placeholder="Detalhes relevantes">
         <button id="finalizarPlano">Forneça o meu artigo.</button>
     `;
     document.body.appendChild(card);
 
     document.getElementById('finalizarPlano').addEventListener('click', function() {
-        tempo = document.getElementById('tempoAula').value;
+        tempo = document.getElementById('tempo').value;
         especificidade = document.getElementById('detalhesAula').value;
         if (!tempo) {
             alert("Escolha o número de palavras!");
@@ -210,7 +213,7 @@ function finalizarPlanoDeAula() {
     mostrarLoading();
     const topicosFormatados = encodeURIComponent(topicosSelecionados.join(';'));
     const subtopicosFormatados = encodeURIComponent(subtopicosSelecionados.join(';'));
-    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Escreva um artigo acadêmico para publicação envolvendo o assunto ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que queremos o número de palavras que é nº=[ ${encodeURIComponent(tempo)} ]  e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
+    const urlFinal = `https://corsproxy.io/?https://hercai.onrender.com/v3/hercai?question={Escreva um artigo acadêmico simulado para publicação envolvendo o assunto ${encodeURIComponent(disciplina)} em seus itens {${topicosFormatados}} e subitens{${subtopicosFormatados}} considerando que queremos o número de palavras que é nº=[ ${encodeURIComponent(tempo)} ]  e precisamos conseguir abraçar a especificidade ${encodeURIComponent(especificidade)}}`;
 
     fetch(urlFinal)
         .then(response => {
@@ -223,7 +226,7 @@ function finalizarPlanoDeAula() {
             apresentarResultadoFinal(data);
         })
         .catch(error => {
-            console.error('Erro ao finalizar plano de aula:', error);
+            console.error('Erro ao finalizar o micro-artigo: ', error);
         });
 }
 
