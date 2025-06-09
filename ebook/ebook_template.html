@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- PAGE_TITLE --></title>
+    <link rel="stylesheet" href="ebook_style.css">
+</head>
+<body>
+    <div class="ebook-container">
+        <header class="ebook-header">
+            <h1 id="chapter-title"><!-- CHAPTER_TITLE --></h1>
+        </header>
+
+        <main class="ebook-content">
+            <!-- Main content of the page will go here -->
+            <p>Este é um parágrafo de exemplo. O conteúdo real da página será inserido aqui.</p>
+            <!-- Example of how content might be structured -->
+            <section id="section-1">
+                <h2><!-- SECTION_TITLE --></h2>
+                <p>Texto da seção...</p>
+            </section>
+        </main>
+
+        <nav class="ebook-navigation">
+            <a href="toc.html" id="nav-toc">Índice</a>
+            <a href="#" id="nav-previous">Anterior</a>
+            <a href="#" id="nav-next">Próximo</a>
+        </nav>
+
+        <footer class="ebook-footer">
+            <p>&copy; <span id="current-year"></span> Seu Nome/Nome da Publicação. Todos os direitos reservados.</p>
+            <p>Página <span id="page-number"><!-- PAGE_NUMBER --></span></p>
+        </footer>
+    </div> <!-- end of ebook-container -->
+
+    <script>
+        // Simple script to update the year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
