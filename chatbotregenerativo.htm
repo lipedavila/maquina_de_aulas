@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professor Virtual - Ghost Swarm</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+    }
+    .message-text {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 flex flex-col h-[90vh]">
+    <div class="text-center mb-4 border-b pb-4">
+        <h1 class="text-2xl font-bold text-gray-800">Professor Virtual <span class="text-sm font-normal text-indigo-500">(Ghost Swarm)</span></h1>
+        <p id="status" class="text-sm text-gray-500 mt-2 h-5">&nbsp;</p>
+    </div>
+
+    <!-- Janela de conversa -->
+    <div id="chat" class="flex-1 overflow-y-auto border rounded-lg p-4 bg-gray-50 mb-4"></div>
+
+    <!-- Área de entrada -->
+    <div class="mt-auto flex">
+      <input id="promptInput" type="text" placeholder="Digite sua pergunta…" class="flex-1 border border-gray-300 rounded-l-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      <button id="sendBtn" class="bg-indigo-600 text-white w-20 flex items-center justify-center rounded-r-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400">
+          <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    /* ========== CONFIGURAÇÃO DA API ========== */
+    const API_KEY = "";
+    const MODEL_ENDPOINT = "/api/gemini-proxy";
+
+    /* ========== MEMÓRIA ILUSÓRIA (PILHA DE RESUMOS) ========== */
+    const memoryStack = [];
+
+    /**
+     * Adiciona um evento (pergunta e resposta) à pilha de memória.
+     * @param {string} event - A string resumindo a interação.
+     */
+    function remember(event) {
+      memoryStack.push(event);
+      if (memoryStack.length > 10) memoryStack.shift(); // Mantém a pilha enxuta
+    }
+
+    /**
+     * Recupera o contexto das últimas interações.
+     * @returns {string} Uma string contendo as últimas interações.
+     */
+    function recallContext() {
+      // Retorna as 3 últimas interações para manter o contexto focado.
+      return memoryStack.slice(-3).join("\n");
+    }
+
+    /* ========== PERSONAS (DNA TEMPLATES DOS GHOSTS) ========== */
+    const personaMap = {
+      professor: `Você é o "Professor Virtual", um especialista em ensino. Sua tarefa é fornecer uma explicação clara, precisa e pedagógica sobre o tópico solicitado. Use analogias e exemplos se for útil. Responda em português.`,
+      critico: `Você é um "Crítico Pedagógico". Sua função é analisar a resposta do "Professor Virtual" e melhorá-la. Verifique a clareza, a precisão e a lógica. Reescreva a resposta para ser mais didática e envolvente, corrigindo quaisquer falhas. Mantenha o tom do Professor Virtual. Apresente apenas a versão final e aprimorada.`
+    };
+
+    /**
+     * Constrói o prompt completo para um ghost, incluindo seu DNA (persona).
+     * @param {string} role - A chave da persona (ex: 'professor', 'critico').
+     * @returns {string} O prompt de sistema para a IA.
+     */
+    function buildDNA(role) {
+      return personaMap[role] || "Você é um assistente prestativo.";
+    }
+
+    /* ========== FUNÇÕES DOS GHOSTS (CHAMADAS DE API) ========== */
+
+    /**
+     * Invoca um "ghost" (agente de IA) com uma tarefa específica.
+     * @param {string} role - A persona do ghost a ser invocada.
+     * @param {string} taskPrompt - A tarefa específica para o ghost.
+     * @param {string} context - O contexto da conversa atual.
+     * @returns {Promise<string>} A resposta do ghost.
+     */
+    async function spawnGhost(role, taskPrompt, context = "") {
+      const dna = buildDNA(role);
+      const fullPrompt = `${dna}\n\nContexto da conversa anterior:\n${context}\n\nTAREFA ATUAL:\n${taskPrompt}`;
+
+      const payload = { contents: [{ role: "user", parts: [{ text: fullPrompt }] }] };
+      const url = MODEL_ENDPOINT;
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+          const errorBody = await res.text();
+          throw new Error(`API Error ${res.status}: ${errorBody}`);
+      }
+
+      const data = await res.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "[O ghost não respondeu]";
+    }
+
+    /* ========== ORQUESTRAÇÃO DO SWARM (ENXAME) ========== */
+
+    /**
+     * Orquestra o fluxo de trabalho do enxame de ghosts para responder a um prompt do usuário.
+     * @param {string} userPrompt - A pergunta do usuário.
+     * @returns {Promise<string>} A resposta final e refinada do enxame.
+     */
+    async function ghostSwarm(userPrompt) {
+      const context = recallContext();
+
+      // 1. Ghost Professor gera a resposta inicial.
+      setStatus("Professor Virtual está formulando uma explicação...");
+      const professorTask = `O aluno perguntou: "${userPrompt}". Elabore uma explicação clara sobre isso.`;
+      const professorResp = await spawnGhost("professor", professorTask, context);
+
+      // 2. Ghost Crítico avalia e melhora a resposta.
+      setStatus("Crítico Pedagógico está revisando a resposta...");
+      const criticTask = `Analise e aprimore a seguinte explicação gerada para o aluno. O pedido original foi: "${userPrompt}".\n\nTexto Original:\n${professorResp}`;
+      const criticResp = await spawnGhost("critico", criticTask, context);
+
+      // 3. A resposta final é a versão aprimorada pelo crítico.
+      return criticResp;
+    }
+
+    /* ========== HELPERS DE UI ========== */
+    const chatEl = document.getElementById("chat");
+    const inputEl = document.getElementById("promptInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const statusEl = document.getElementById("status");
+
+    /**
+     * Adiciona uma mensagem à janela de chat.
+     * @param {string} author - 'user' ou 'bot'.
+     * @param {string} text - O conteúdo da mensagem.
+     */
+    function appendMessage(author, text) {
+      const wrap = document.createElement("div");
+      wrap.className = `flex flex-col mb-4 ${author === "user" ? "items-end" : "items-start"}`;
+
+      const authorSpan = document.createElement('span');
+      authorSpan.className = 'text-xs text-gray-500 px-3 pb-1';
+      authorSpan.textContent = author === 'user' ? 'Você' : 'Professor Virtual';
+
+      const textSpan = document.createElement("span");
+      textSpan.className = `message-text inline-block px-4 py-3 rounded-xl ${author === "user" ? "bg-indigo-600 text-white" : "bg-gray-200 text-gray-800"}`;
+      textSpan.textContent = text;
+
+      wrap.append(authorSpan, textSpan);
+      chatEl.appendChild(wrap);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+
+    function setButtonLoading(isLoading) {
+        sendBtn.disabled = isLoading;
+        if(isLoading) {
+            sendBtn.innerHTML = `<div class="spinner"></div>`;
+        } else {
+            sendBtn.innerHTML = `<i class="fas fa-paper-plane"></i>`;
+        }
+    }
+
+    /* ========== HANDLERS DE EVENTOS ========== */
+
+    /**
+     * Manipula o envio de uma nova mensagem pelo usuário.
+     */
+    async function handleSend() {
+      const prompt = inputEl.value.trim();
+      if (!prompt || sendBtn.disabled) return;
+
+      appendMessage("user", prompt);
+      inputEl.value = "";
+      setButtonLoading(true);
+
+      try {
+        const swarmReply = await ghostSwarm(prompt);
+        appendMessage("bot", swarmReply);
+        remember(`Pergunta: ${prompt} | Resposta: ${swarmReply}`);
+        setStatus("Pronto.");
+      } catch (err) {
+        console.error(err);
+        appendMessage("bot", "Ocorreu um erro ao processar sua solicitação.");
+        setStatus("Erro.");
+      } finally {
+          setButtonLoading(false);
+      }
+    }
+
+    sendBtn.addEventListener("click", handleSend);
+    inputEl.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) handleSend(); });
+
+    setStatus("Pronto para começar.");
+  </script>
+</body>
+</html>
