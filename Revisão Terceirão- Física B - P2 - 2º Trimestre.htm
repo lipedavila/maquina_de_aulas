@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Revisão para Prova de Física B — Edição Enriquecida</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root{
+      --ink:#1b1f23; --muted:#4b5563; --accent:#1a2a6c; --accent2:#b21f1f; --paper:#ffffff; --border:#e5e7eb; --box:#f8fafc;
+    }
+    *{box-sizing:border-box}
+    html,body{min-height:100%; background:linear-gradient(135deg,#1a2a6c,#b21f1f,#1a2a6c); color:var(--ink); font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif; line-height:1.4;}
+    .container{max-width:1200px; margin:0 auto; padding:22px;}
+    header{ text-align:center; padding:30px 20px; background:rgba(255,255,255,0.92); border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,.25); margin-bottom:26px;}
+    h1{font-size:2.2rem; margin:0 0 6px; color:#1a2a6c; text-shadow:2px 2px 4px rgba(0,0,0,0.06);}
+    .subtitle{color:#b21f1f; font-size:1.1rem; margin:4px 0 14px;}
+    .exam-info{display:flex; justify-content:center; flex-wrap:wrap; gap:16px; margin-top:10px; background:rgba(26,42,108,0.08); padding:12px; border-radius:12px;}
+    .info-card{background:#fff; padding:12px 14px; border-radius:10px; min-width:180px; box-shadow:0 4px 8px rgba(0,0,0,0.08);}  
+
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:18px 0 0;}
+    .btn{appearance:none; border:1px solid var(--border); background:#f3f4f6; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer;}
+    .btn:hover{filter:brightness(0.98);} .btn--accent{background:#e6fffa; border-color:#99f6e4;}
+
+    .content{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+    @media (max-width: 900px){ .content{grid-template-columns:1fr;} }
+
+    section.section{background:rgba(255,255,255,0.96); border-radius:15px; padding:22px; box-shadow:0 8px 20px rgba(0,0,0,0.18); transition:transform .3s}
+    section.section:hover{transform:translateY(-3px)}
+    h2{color:#1a2a6c; border-bottom:3px solid #b21f1f; padding-bottom:8px; margin-bottom:16px; display:flex; align-items:center; gap:8px;}
+    h3{color:#b21f1f; margin:18px 0 10px;}
+
+    .concepts{padding:14px; background:rgba(26, 42, 108, 0.06); border-radius:10px;}
+    .concept-item{margin-bottom:10px; padding-left:18px; position:relative}
+    .concept-item:before{content:"•"; color:#b21f1f; position:absolute; left:0; top:0; font-weight:700}
+    .highlight{background:linear-gradient(120deg, rgba(255,255,0,0.3), rgba(255,255,0,0)); padding:1px 5px; border-radius:3px}
+
+    .example-question{background:#fff; border-left:5px solid #1a2a6c; padding:16px; margin:18px 0; border-radius:0 10px 10px 0; box-shadow:0 4px 10px rgba(0,0,0,0.08)}
+    .question-text{font-weight:700; margin-bottom:12px; color:#1a2a6c}
+    .solution{background:rgba(178,31,31,0.06); padding:12px; border-radius:8px; margin-top:10px}
+    .step{margin-bottom:10px; display:flex; gap:12px}
+    .step-number{background:#1a2a6c; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0}
+    
+    /* Estilos para Fórmulas */
+    .formula{background:rgba(26,42,108,0.1); padding:12px; border-radius:8px; margin:12px 0; text-align:center; font-size:1.1rem}
+    .formula-inline { background-color: #eef2ff; color: #312e81; padding: 2px 6px; border-radius: 4px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 0.9em; }
+    
+    /* Estilos para Exercícios e IA */
+    .exercise-item { border: 1px solid var(--border); border-radius: 10px; padding: 16px; background: #fff; margin-bottom:16px;}
+    .k { display: inline-block; background: #111827; color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.82rem; margin-right: 8px;}
+    .q { font-weight: 700; margin-bottom: 12px; }
+    .options-container label { display: block; margin: 8px 0; padding: 8px; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; }
+    .options-container label:hover { background-color: #f0f4ff; }
+    .options-container input { margin-right: 10px; }
+    .actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap:wrap; }
+    .btn-check, .btn-ai { appearance: none; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-check { background-color: #e0f2fe; color: #0c546e; }
+    .btn-ai { background-color: #d1fae5; color: #065f46; }
+    .feedback { margin-top: 12px; padding: 10px; border-radius: 6px; font-weight: 600; }
+    .feedback.correct { background-color: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+    .feedback.incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+    .ai-explanation { margin-top: 12px; padding: 12px; border-radius: 8px; background: rgba(26,42,108,0.06); }
+    .ai-explanation p b { color: var(--accent); }
+    .ai-assistant-trigger { text-align: right; margin-top: 12px; }
+    .btn-ai-context { background-color: #f3e8ff; color: #581c87; border: 1px solid #e9d5ff; padding: 6px 10px; border-radius: 8px; cursor:pointer; font-weight:600; font-size:0.9rem;}
+    .btn-ai-context:hover { filter: brightness(0.97); }
+
+    /* Modal do Assistente de IA */
+    .ai-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px;}
+    .ai-modal-content { background: var(--paper); border-radius: 15px; padding: 25px; max-width: 600px; width:100%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position:relative; animation: modal-fadein 0.3s; }
+    @keyframes modal-fadein { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    .ai-modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 15px;}
+    .ai-modal-header h3 { margin: 0; color: var(--accent); }
+    .ai-modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); }
+    .ai-modal-body textarea { width: 100%; min-height: 80px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 12px; font-family: inherit; font-size:1rem; }
+    .ai-modal-body button { width: 100%; background-color: var(--accent); color: var(--paper); padding: 12px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer;}
+    .ai-modal-response { margin-top: 15px; padding: 12px; background: var(--box); border-radius: 8px; max-height: 30vh; overflow-y: auto; line-height: 1.6;}
+
+    /* Impressão A4 */
+    @page{ size:A4; margin:12mm; }
+    @media print{
+      body{background:#fff}
+      header{background:#fff; box-shadow:none}
+      .toolbar, .actions, .ai-explanation, .ai-assistant-trigger, .ai-modal-overlay {display:none!important}
+      a[href]::after{content:""}
+      .formula-inline { background-color: transparent; color: var(--ink); padding: 0; border-radius: 0; }
+    }
+
+    footer{ text-align:center; color:#fff; margin:22px 0; }
+    .tip{ background:rgba(255,255,255,0.2); border-radius:10px; padding:12px; margin-top:12px; display:inline-block }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-atom"></i> Revisão para Prova de Física B</h1>
+      <p class="subtitle">Conceitos essenciais e questões resolvidas passo a passo</p>
+      <div class="exam-info">
+        <div class="info-card"><h3><i class="fas fa-book"></i> Disciplina</h3><p>Física B</p></div>
+        <div class="info-card"><h3><i class="fas fa-calendar"></i> Período</h3><p>2º Trimestre</p></div>
+        <div class="info-card"><h3><i class="fas fa-list-ol"></i> Questões</h3><p>10 questões</p></div>
+        <div class="info-card"><h3><i class="fas fa-pen"></i> Formato</h3><p>Objetivas e cálculos</p></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="window.print()">Imprimir para resolver</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="section">
+        <h2><i class="fas fa-wave-square"></i> Ondas Mecânicas vs. Eletromagnéticas</h2>
+        <div class="concepts">
+          <div class="concept-item"><span class="highlight">Ondas mecânicas</span> requerem meio material (ex.: som).</div>
+          <div class="concept-item"><span class="highlight">Ondas eletromagnéticas</span> propagam-se no vácuo (ex.: luz).</div>
+          <div class="concept-item">Velocidade da luz no vácuo: <span class="formula-inline">$c = 3 \times 10^8$ m/s</span></div>
+          <div class="concept-item">Fenômenos: reflexão, refração, interferência, difração, absorção.</div>
+          <div class="concept-item">Som: onda <span class="highlight">longitudinal</span>; Luz: onda <span class="highlight">transversal</span>.</div>
+        </div>
+        <div class="ai-assistant-trigger">
+            <button class="btn-ai-context" onclick="openAIAssistant('Ondas Mecânicas vs. Eletromagnéticas')"><i class="fas fa-comment-dots"></i> Tirar Dúvida com o Bot d'Avila</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2><i class="fas fa-sun"></i> Espectro Eletromagnético</h2>
+        <div class="concepts">
+          <div class="concept-item">Ordem (maior → menor $\lambda$): Rádio → Micro-ondas → <span class="highlight">Infravermelho</span> → Visível → <span class="highlight">Ultravioleta</span> → Raios X → Gama</div>
+          <div class="concept-item"><span class="highlight">No vácuo todas têm a mesma velocidade ($c$)</span></div>
+          <div class="concept-item">Relação fundamental: <span class="formula-inline">$c=\lambda f$</span> (logo $\lambda$ e $f$ são inversamente proporcionais)</div>
+          <div class="concept-item">UV: maior $f$, menor $\lambda$; IR: menor $f$, maior $\lambda$</div>
+        </div>
+         <div class="ai-assistant-trigger">
+            <button class="btn-ai-context" onclick="openAIAssistant('Espectro Eletromagnético')"><i class="fas fa-comment-dots"></i> Tirar Dúvida com o Bot d'Avila</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2><i class="fas fa-fire-alt"></i> Calor e Temperatura</h2>
+        <div class="concepts">
+          <div class="concept-item"><span class="highlight">Calor</span>: energia em trânsito por diferença de temperatura (condução, convecção, radiação)</div>
+          <div class="concept-item"><span class="highlight">Temperatura</span>: medida da agitação térmica; define sentido do fluxo (quente → frio)</div>
+          <div class="concept-item"><span class="highlight">Energia interna</span> aumenta com calor absorvido ou trabalho realizado <em>sobre</em> o sistema</div>
+        </div>
+        <div class="ai-assistant-trigger">
+            <button class="btn-ai-context" onclick="openAIAssistant('Calor e Temperatura')"><i class="fas fa-comment-dots"></i> Tirar Dúvida com o Bot d'Avila</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2><i class="fas fa-tachometer-alt"></i> Termodinâmica</h2>
+        <div class="concepts">
+          <div class="concept-item"><span class="highlight">1ª Lei</span>: <span class="formula-inline">$\Delta U=Q-W$</span> (com $W>0$ feito <em>pelo</em> sistema)</div>
+          <div class="concept-item"><span class="highlight">Ciclos</span>: <span class="formula-inline">$\Delta U=0$</span></div>
+          <div class="concept-item"><span class="highlight">Máquinas térmicas</span>: <span class="formula-inline">$\eta=\dfrac{W}{Q_{\text{Quente}}}=1-\dfrac{Q_{\text{Frio}}}{Q_{\text{Quente}}}$</span></div>
+        </div>
+        <div class="ai-assistant-trigger">
+            <button class="btn-ai-context" onclick="openAIAssistant('Termodinâmica e Máquinas Térmicas')"><i class="fas fa-comment-dots"></i> Tirar Dúvida com o Bot d'Avila</button>
+        </div>
+      </section>
+    </div>
+
+    <hr style="border:none; border-top:1px dashed rgba(255,255,255,0.6); margin:22px 0;" />
+
+    <section class="section" style="background:#fff">
+      <h2><i class="fas fa-list-check"></i> Exercícios de treino com autocorreção</h2>
+      <div id="exercise-list">
+        <!-- Os exercícios serão inseridos aqui pelo JavaScript -->
+      </div>
+    </section>
+
+    <hr style="border:none; border-top:1px dashed rgba(255,255,255,0.6); margin:22px 0;" />
+
+    <div class="content">
+      <section class="section">
+        <h2><i class="fas fa-equals"></i> Fórmulas em 15 segundos</h2>
+        <div class="formula">
+            $v=\lambda f$ &nbsp;&nbsp;|&nbsp;&nbsp; $T=\dfrac{1}{f}$ &nbsp;&nbsp;|&nbsp;&nbsp; $\Delta U=Q-W$ &nbsp;&nbsp;|&nbsp;&nbsp; $\eta=1-\dfrac{Q_{\text{Frio}}}{Q_{\text{Quente}}}$
+        </div>
+      </section>
+      <section class="section">
+        <h2><i class="fas fa-clipboard-check"></i> Checklist final</h2>
+        <div class="concepts">
+          <div class="concept-item">[ ] Usei <span class="formula-inline">$v=\lambda f$</span> e <span class="formula-inline">$T=1/f$</span></div>
+          <div class="concept-item">[ ] Para EM no vácuo, considerei <span class="formula-inline">$v=c$</span></div>
+          <div class="concept-item">[ ] Em ciclo térmico, apliquei <span class="formula-inline">$\Delta U=0$</span></div>
+          <div class="concept-item">[ ] Em rendimento, usei <span class="formula-inline">$W=\eta Q_{\text{Quente}}$</span></div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p>Revisão completa para a Prova de Física B — 2º Trimestre</p>
+      <p>Bons estudos e boa prova! <i class="fas fa-graduation-cap"></i></p>
+      <div class="tip"><i class="fas fa-lightbulb"></i> Em múltipla escolha, elimine primeiro as alternativas claramente incorretas.</div>
+    </footer>
+  </div>
+
+  <!-- Modal do Assistente de IA -->
+  <div class="ai-modal-overlay" id="ai-assistant-modal">
+    <div class="ai-modal-content" data-context="">
+      <div class="ai-modal-header">
+        <h3><i class="fas fa-robot"></i> Professor Virtual Bot d'Avila</h3>
+        <button class="ai-modal-close" onclick="closeAIAssistant()">&times;</button>
+      </div>
+      <div class="ai-modal-body">
+        <textarea id="ai-question-input" placeholder="Digite aqui sua pergunta sobre o tópico..."></textarea>
+        <button onclick="submitAIQuestion()">Enviar Pergunta</button>
+        <div class="ai-modal-response" id="ai-modal-response-area">
+          <p>Faça uma pergunta sobre o conteúdo desta seção para começar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    const exercises = [
+        { question: "Quando uma onda retorna ao meio de origem após atingir uma superfície, ocorre o fenômeno de:", options: { a: "refração.", b: "interferência.", c: "reflexão.", d: "difração.", e: "polarização." }, answer: 'c', justification: "Reflexão é o fenômeno em que a onda incide em uma superfície e retorna ao seu meio de propagação original." },
+        { question: "Uma onda na qual as partículas do meio vibram paralelamente à direção de propagação é denominada:", options: { a: "transversal.", b: "longitudinal.", c: "eletromagnética.", d: "estacionária.", e: "progressiva." }, answer: 'b', justification: "Em ondas longitudinais, como o som no ar, a vibração das partículas ocorre na mesma direção do deslocamento da onda." },
+        { question: "A radiação eletromagnética responsável pelo aquecimento de corpos à distância é:", options: { a: "luz visível.", b: "ultravioleta.", c: "micro-ondas.", d: "raios X.", e: "infravermelha." }, answer: 'e', justification: "A radiação infravermelha, também conhecida como 'onda de calor', é a principal responsável pela transferência de energia térmica por radiação." },
+        { question: "No vácuo, a velocidade de propagação de todas as ondas eletromagnéticas é:", options: { a: "maior para o infravermelho que para o ultravioleta.", b: "maior para a luz visível que para o infravermelho.", c: "igual para todas as faixas do espectro.", d: "dependente da amplitude da onda.", e: "inversamente proporcional à frequência." }, answer: 'c', justification: "Um postulado fundamental da física é que todas as ondas eletromagnéticas se propagam no vácuo com a mesma velocidade, a velocidade da luz ($c \\approx 3 \\times 10^8$ m/s)." },
+        { question: "Assinale a alternativa que descreve corretamente um aspecto da Primeira Lei da Termodinâmica:", options: { a: "Trabalho e calor são formas de transferir energia, mas não alteram a energia interna.", b: "A energia interna de um sistema só pode diminuir quando ele realiza trabalho.", c: "Calor é a energia transferida devido exclusivamente ao contato físico entre corpos.", d: "Temperatura mede diretamente o calor contido em um corpo.", e: "A variação da energia interna de um sistema é igual ao calor recebido menos o trabalho realizado por ele." }, answer: 'e', justification: "A Primeira Lei da Termodinâmica ($\\Delta U = Q - W$) é um princípio de conservação de energia. A energia interna ($\\Delta U$) de um sistema muda quando ele troca calor ($Q$) ou realiza/sofre trabalho ($W$)." },
+        { question: "Em um ciclo térmico fechado, um gás realiza um trabalho de 50 J. A variação de energia interna e o calor líquido trocado no ciclo são, respectivamente:", options: { a: "0 J e 50 J.", b: "50 J e 50 J.", c: "0 J e -50 J.", d: "50 J e 0 J.", e: "Não é possível determinar." }, answer: 'a', justification: "Em qualquer ciclo, o sistema retorna ao estado inicial, então a variação da energia interna ($\\Delta U$) é sempre zero. Pela 1ª Lei, se $\\Delta U = 0$, então $Q = W$. Portanto, o calor líquido trocado é igual ao trabalho realizado, 50 J." },
+        { question: "Uma máquina térmica com rendimento de 25% rejeita 300 kJ para a fonte fria. O calor absorvido da fonte quente, em kJ, é:", options: { a: "100", b: "200", c: "300", d: "400", e: "500" }, answer: 'd', justification: "O rendimento é $\\eta = 1 - \\frac{Q_{\\text{Frio}}}{Q_{\\text{Quente}}}$. Substituindo os valores: $0,25 = 1 - \\frac{300}{Q_{\\text{Quente}}} \\Rightarrow \\frac{300}{Q_{\\text{Quente}}} = 0,75 \\Rightarrow Q_{\\text{Quente}} = \\frac{300}{0,75} = 400$ kJ." },
+        { question: "Uma onda propaga-se a 340 m/s com frequência de 85 Hz. O comprimento de onda, em metros, é:", options: { a: "2", b: "4", c: "6", d: "8", e: "10" }, answer: 'b', justification: "Usando a equação fundamental da ondulatória $v = \\lambda f$, temos $\\lambda = \\frac{v}{f} = \\frac{340}{85} = 4$ m." },
+        { question: "Uma onda periódica tem comprimento de onda de 12 m e frequência de 0,5 Hz. A velocidade de propagação, em m/s, é:", options: { a: "6", b: "12", c: "18", d: "24", e: "36" }, answer: 'a', justification: "Pela equação $v = \\lambda f$, calculamos $v = 12 \\times 0,5 = 6$ m/s." },
+        { question: "O som e a luz são ondas que transportam energia sem transporte de matéria. A principal diferença entre eles é que:", options: { a: "o som é longitudinal e mecânica, enquanto a luz é transversal e eletromagnética.", b: "ambos são transversais, mas o som exige meio material.", c: "a luz é longitudinal, e o som é transversal.", d: "ambos são eletromagnéticos, mas o som tem maior frequência.", e: "a luz é mecânica, e o som é eletromagnético." }, answer: 'a', justification: "Esta é a classificação fundamental: som precisa de um meio (mecânica) e vibra na direção da propagação (longitudinal). Luz não precisa de meio (eletromagnética) e vibra perpendicularmente à propagação (transversal)." }
+    ];
+
+    function loadExercises() {
+        const list = document.getElementById('exercise-list');
+        if (!list) return;
+        let html = '';
+        exercises.forEach((ex, index) => {
+            html += `<div class="exercise-item"><p class="q"><span class="k">Q${index + 1}</span> ${ex.question}</p><div class="options-container" id="options-${index}">`;
+            for (const key in ex.options) {
+                html += `<label><input type="radio" name="q${index}" value="${key}">(${key.toUpperCase()}) ${ex.options[key]}</label>`;
+            }
+            html += `</div><div class="actions"><button class="btn-check" onclick="checkAnswer(${index})">Verificar Resposta</button><button class="btn-ai" onclick="askExerciseExplanation(${index})">Pedir Explicação ao Bot d'Avila <i class="fas fa-robot"></i></button></div><div class="feedback" id="feedback-${index}"></div><div class="ai-explanation" id="ai-explanation-${index}" style="display:none;"></div></div>`;
+        });
+        list.innerHTML = html;
+        if (window.MathJax) { MathJax.typesetPromise(); }
+    }
+
+    function checkAnswer(index) {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedbackDiv = document.getElementById(`feedback-${index}`);
+        if (!selected) {
+            feedbackDiv.innerHTML = 'Por favor, selecione uma alternativa.';
+            feedbackDiv.className = 'feedback incorrect';
+            return;
+        }
+        const isCorrect = selected.value === exercises[index].answer;
+        if (isCorrect) {
+            feedbackDiv.innerHTML = `<b>Correto!</b> ${exercises[index].justification}`;
+            feedbackDiv.className = 'feedback correct';
+        } else {
+            const correctOptionText = exercises[index].options[exercises[index].answer];
+            feedbackDiv.innerHTML = `<b>Incorreto.</b> A resposta certa é a alternativa <b>${exercises[index].answer.toUpperCase()}</b>: "${correctOptionText}".<br><br><i>Justificativa:</i> ${exercises[index].justification}`;
+            feedbackDiv.className = 'feedback incorrect';
+        }
+        if (window.MathJax) { MathJax.typesetPromise([feedbackDiv]); }
+    }
+
+    const apiQueue = [];
+    let isApiBusy = false;
+    const apiCooldown = 3000;
+
+    function processApiQueue() {
+        if (isApiBusy || apiQueue.length === 0) return;
+        isApiBusy = true;
+        const task = apiQueue.shift();
+        task();
+        setTimeout(() => { isApiBusy = false; processApiQueue(); }, apiCooldown);
+    }
+
+    function callAPI(prompt, outputElement) {
+        outputElement.style.display = 'block';
+        outputElement.innerHTML = '<p>Buscando resposta com o bot do professor d\'Avila... 🤖</p>';
+        
+        const encodedPrompt = encodeURIComponent(prompt);
+        const url = `https://text.pollinations.ai/${encodedPrompt}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
+                return response.text();
+            })
+            .then(text => {
+                let processedText;
+                if (text.toLowerCase().includes('sponsor')) {
+                    processedText = '<p><b>Bot do Professor:</b> A resposta automática foi filtrada pelo sistema detector de erros. Tente novamente.</p>';
+                } else {
+                    processedText = text.replace(/\n/g, '<br>');
+                }
+                outputElement.innerHTML = processedText;
+                if (window.MathJax) {
+                    MathJax.typesetPromise([outputElement]);
+                }
+            })
+            .catch(error => {
+                console.error('Erro na API:', error);
+                outputElement.innerHTML = '<p><b>Erro:</b> Não foi possível contatar o bot. Verifique sua conexão ou tente mais tarde.</p>';
+            });
+    }
+
+    function askExerciseExplanation(index) {
+        const ex = exercises[index];
+        const explanationDiv = document.getElementById(`ai-explanation-${index}`);
+        const correctAnswerText = ex.options[ex.answer];
+        const prompt = `Como um excelente professor de física chamado d'Avila Bot, explique de forma didática e concisa para um aluno de ensino médio por que a resposta correta da questão "${ex.question}" é a alternativa "${ex.answer}) ${correctAnswerText}". Foque no conceito principal.`;
+        
+        apiQueue.push(() => callAPI(prompt, explanationDiv));
+        processApiQueue();
+    }
+
+    const aiModal = document.getElementById('ai-assistant-modal');
+    const aiQuestionInput = document.getElementById('ai-question-input');
+    const aiResponseArea = document.getElementById('ai-modal-response-area');
+
+    function openAIAssistant(context) {
+        aiModal.style.display = 'flex';
+        aiModal.querySelector('.ai-modal-content').dataset.context = context;
+        aiQuestionInput.value = '';
+        aiResponseArea.innerHTML = `<p>Você está estudando <b>${context}</b>. Faça uma pergunta sobre este tópico.</p>`;
+    }
+
+    function closeAIAssistant() {
+        aiModal.style.display = 'none';
+    }
+
+    function submitAIQuestion() {
+        const userQuestion = aiQuestionInput.value.trim();
+        const context = aiModal.querySelector('.ai-modal-content').dataset.context;
+        if (!userQuestion) {
+            aiResponseArea.innerHTML = "<p>Por favor, digite uma pergunta antes de enviar.</p>";
+            return;
+        }
+
+        const prompt = `Você é o d'Avila Bot, um Bot professor de física gente boa e didático. Um aluno está usando seu material de revisão para uma prova e tem uma dúvida sobre o tópico "${context}". Responda à seguinte pergunta do aluno de forma clara e direta: "${userQuestion}"`;
+
+        apiQueue.push(() => callAPI(prompt, aiResponseArea));
+        processApiQueue();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadExercises);
+  </script>
+</body>
+</html>
