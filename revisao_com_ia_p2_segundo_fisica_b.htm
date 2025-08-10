@@ -389,7 +389,7 @@
         <div class="container">
             <header>
                 <div class="header-content">
-                    <img src="https://sistemaanglo.com.br/wp-content/themes/sistema-anglo/assets/images/logo.svg" alt="Logo do Sistema Anglo" style="height: 60px;"/>
+                    <img src="https://sistemaanglo.com.br/wp-content/themes/sistema-anglo/assets/images/logo.svg" alt="Logo do Sistema Anglo" style="height: 120px;"/>
                     <div class="header-text">
                         <h1><i class="fas fa-atom"></i> Revisão Final para Prova de Física B</h1>
                         <p class="subtitle">Conteúdo essencial e questões resolvidas com IA para a P2</p>
@@ -482,7 +482,7 @@
             </section>
 
             <footer>
-                <p>Esse Arquivo é Uma Cortesia do Professor Felipe d'Avila (Itajaí - SC) Para Uso Exclusivo de Seus Alunos</p>
+                <p>Esse Arquivo é Uma Cortesia do Professor Felipe d'Avila (Itajaí - SC) Para Uso Exclusivo de Seus Alunos</p> <br> Este Material Irá Expirar em 28/08/2025
             </footer>
         </div>
     </div>
@@ -725,9 +725,25 @@
     }
     
     function generateContextualPrompt(newQuestion, context) {
-        let historyString = "Histórico da conversa:\n";
-        chatHistory.forEach(msg => { historyString += `${msg.role === 'user' ? 'Aluno' : 'Bot'}: ${msg.content}\n`; });
-        const prompt = `Você é o Bot d'Avila, um professor de física. Mantenha o contexto da conversa. O aluno estuda sobre "${context}" e pergunta: "${newQuestion}". Responda de forma didática, usando LaTeX ($...$ ou $$...$$).`;
+        const MAX_HISTORY_TURNS = 4; // Mantém os últimos 4 pares da conversa
+        
+        if (chatHistory.length > MAX_HISTORY_TURNS * 2) {
+            chatHistory = chatHistory.slice(chatHistory.length - (MAX_HISTORY_TURNS * 2));
+        }
+
+        let historyString = "Este é o histórico recente da conversa para manter o contexto:\n";
+        chatHistory.forEach(msg => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = msg.content;
+            const textContent = tempDiv.textContent || tempDiv.innerText || "";
+            historyString += `${msg.role === 'user' ? 'Aluno' : 'Bot d\'Avila'}: ${textContent.trim()}\n`;
+        });
+
+        const prompt = `Você é o Bot d'Avila, um professor de física prolixo e exaustivo. Seu nome é uma homenagem ao professor Felipe d'Avila. Mantenha o contexto da conversa a seguir.
+        ${chatHistory.length > 0 ? historyString : ''}
+        O aluno, que está a estudar sobre "${context}", agora pergunta: "${newQuestion}". [Não responda se não for condizente com o estudos para a prova de física de ondulatóriado ensino médio.]
+        Responda de forma clara e didática [não revele que é "for dummies" mas seja "for dummies" "prolixando" até os alunos mais avançados[sempre ensino médio em nível pré cálculo 1]], utilizando formatação Markdown e fórmulas matemáticas com delimitadores LaTeX ($...$ para fórmulas inline e $$...$$ para fórmulas em destaque).`;
+        
         return prompt;
     }
 
@@ -746,31 +762,51 @@
         return marked.parse(normalizedText);
     }
 
-    // Função para chamar a API da IA
-    async function callAIApi(prompt) {
-        let chatHistory = [];
-        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-        const payload = { contents: chatHistory };
-        const apiKey = "" 
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-        
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    let lastApiCallTimestamp = 0; // Controla o tempo da última chamada
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    // Função para chamar a API Pollinations com controle de tempo e repetição
+    async function callPollinationsAPI(prompt) {
+        const now = Date.now();
+        const timeSinceLastCall = now - lastApiCallTimestamp;
+        if (timeSinceLastCall < 3000) {
+            await new Promise(resolve => setTimeout(resolve, 3000 - timeSinceLastCall));
         }
+        lastApiCallTimestamp = Date.now();
 
-        const result = await response.json();
-        if (result.candidates && result.candidates.length > 0 &&
-            result.candidates[0].content && result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0) {
-            return result.candidates[0].content.parts[0].text;
-        } else {
-            throw new Error("Resposta da API inválida ou vazia.");
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        while (attempts < maxAttempts) {
+            try {
+                const encodedPrompt = encodeURIComponent(prompt);
+                const url = `https://text.pollinations.ai/${encodedPrompt}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                let botResponseText = await response.text();
+                
+                if (botResponseText.toLowerCase().includes('sponsor')) {
+                    console.warn("Resposta com 'sponsor' detectada. Tentando novamente...");
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                         throw new Error("Máximo de tentativas atingido para evitar resposta com 'sponsor'.");
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Pequeno atraso antes de tentar de novo
+                    continue; // Tenta o loop novamente
+                }
+                
+                return botResponseText; // Sucesso
+
+            } catch (error) {
+                console.error(`Tentativa ${attempts + 1} falhou:`, error);
+                attempts++;
+                if (attempts >= maxAttempts) {
+                    throw error; // Lança o erro final após o máximo de tentativas
+                }
+            }
         }
     }
 
@@ -793,7 +829,7 @@
         aiMessagesDiv.scrollTop = aiMessagesDiv.scrollHeight;
 
         try {
-            let botResponseText = await callAIApi(prompt);
+            let botResponseText = await callPollinationsAPI(prompt);
             const processedResponse = preprocessBotResponse(botResponseText);
             
             loadingElement.remove();
@@ -801,8 +837,8 @@
             renderChatHistory();
 
         } catch (error) {
-            console.error('Erro na API:', error);
-            const errorMessage = '<p><b>Erro:</b> Não foi possível obter resposta. Tente novamente.</p>';
+            console.error('Erro na API Pollinations:', error);
+            const errorMessage = '<p><b>Erro:</b> Não foi possível obter resposta do assistente. Tente novamente mais tarde.</p>';
             loadingElement.remove();
             chatHistory.push({ role: 'bot', content: errorMessage });
             renderChatHistory();
