@@ -389,7 +389,7 @@
         <div class="container">
             <header>
                 <div class="header-content">
-                    <img src="https://sistemaanglo.com.br/wp-content/themes/sistema-anglo/assets/images/logo.svg" alt="Logo do Sistema Anglo" style="height: 120px;"/>
+                    <img src="https://sistemaanglo.com.br/wp-content/themes/sistema-anglo/assets/images/logo.svg" alt="Logo do Sistema Anglo" style="height: 60px;"/>
                     <div class="header-text">
                         <h1><i class="fas fa-atom"></i> Revisão Final para Prova de Física B</h1>
                         <p class="subtitle">Conteúdo essencial e questões resolvidas com IA para a P2</p>
@@ -483,7 +483,7 @@
 
             <footer>
                 <p>Esse Arquivo é Uma Cortesia do Professor Felipe d'Avila (Itajaí - SC) Para Uso Exclusivo de Seus Alunos</p>
-            <br>Este Material Expira Em: 20/08/2025</footer>
+            </footer>
         </div>
     </div>
     
@@ -683,7 +683,7 @@
         aiQuestionInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitAIQuestion(); } });
     });
 
-    // --- Lógica do Assistente de IA com Histórico (sem alterações) ---
+    // --- Lógica do Assistente de IA com Histórico ---
     const aiModal = document.getElementById('ai-assistant-modal');
     const aiQuestionInput = document.getElementById('ai-question-input');
     const aiMessagesDiv = document.getElementById('ai-messages');
@@ -731,28 +731,82 @@
         return prompt;
     }
 
+    // Função para normalizar delimitadores LaTeX
+    function normalizeDelimiters(text) {
+        return text
+            .replace(/\\\(/g, '$')
+            .replace(/\\\)/g, '$')
+            .replace(/\\\[/g, '$$')
+            .replace(/\\\]/g, '$$');
+    }
+
+    // Função para pré-processar o texto da IA
+    function preprocessBotResponse(text) {
+        let normalizedText = normalizeDelimiters(text);
+        return marked.parse(normalizedText);
+    }
+
+    // Função para chamar a API da IA
+    async function callAIApi(prompt) {
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+        const payload = { contents: chatHistory };
+        const apiKey = "" 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+            return result.candidates[0].content.parts[0].text;
+        } else {
+            throw new Error("Resposta da API inválida ou vazia.");
+        }
+    }
+
+
     async function submitAIQuestion() {
         const userQuestion = aiQuestionInput.value.trim();
         if (!userQuestion) return;
+
         chatHistory.push({ role: 'user', content: userQuestion });
         renderChatHistory();
         aiQuestionInput.value = '';
+        
         const context = aiModal.querySelector('.ai-modal-content').dataset.context;
         const prompt = generateContextualPrompt(userQuestion, context);
         
-        // Simulação de chamada de API para manter a funcionalidade do modal
         const loadingElement = document.createElement('div');
         loadingElement.className = 'message message-bot message-loading';
         loadingElement.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Bot d\'Avila está pensando...</p>';
         aiMessagesDiv.appendChild(loadingElement);
         aiMessagesDiv.scrollTop = aiMessagesDiv.scrollHeight;
 
-        setTimeout(() => {
+        try {
+            let botResponseText = await callAIApi(prompt);
+            const processedResponse = preprocessBotResponse(botResponseText);
+            
             loadingElement.remove();
-            const botResponseText = "Esta é uma resposta simulada. A funcionalidade de IA para perguntas abertas pode ser integrada aqui.";
-            chatHistory.push({ role: 'bot', content: marked.parse(botResponseText) });
+            chatHistory.push({ role: 'bot', content: processedResponse });
             renderChatHistory();
-        }, 1500);
+
+        } catch (error) {
+            console.error('Erro na API:', error);
+            const errorMessage = '<p><b>Erro:</b> Não foi possível obter resposta. Tente novamente.</p>';
+            loadingElement.remove();
+            chatHistory.push({ role: 'bot', content: errorMessage });
+            renderChatHistory();
+        }
     }
     </script>
 </body>
