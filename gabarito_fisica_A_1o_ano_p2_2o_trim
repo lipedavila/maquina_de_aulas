@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabarito Detalhado de Física – Trabalho e Energia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMVIhbGKLCeKXANUReLe9MVHYKcFZjXZMTnA2iIZRyzjQaH5z" crossorigin="anonymous">
+    
+    <!-- KaTeX JS -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .question-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .katex {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <!-- Cabeçalho -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Gabarito Detalhado de Física</h1>
+            <p class="text-lg text-gray-600 mt-2">Tópicos: Trabalho e Energia</p>
+        </header>
+
+        <main class="space-y-6">
+
+            <!-- Questão 1 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">1) Bloco Puxado com Atrito</h2>
+                <p class="mb-4 text-gray-700">Um bloco de 2 kg é puxado por uma força constante de 5 N sobre uma mesa horizontal com atrito. Sabendo que o bloco percorre 3 m e o coeficiente de atrito é 0,2, calcule:</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="font-semibold mb-2">a) O trabalho realizado pela força aplicada.</p>
+                    <p class="mb-3">\( W = F \cdot d = 5 \, \text{N} \cdot 3 \, \text{m} = \) <strong class="text-blue-600">15 J</strong></p>
+                    
+                    <p class="font-semibold mb-2">b) O trabalho realizado pela força de atrito.</p>
+                    <p class="mb-1">Primeiro, a força de atrito: \( F_{at} = \mu \cdot N = \mu \cdot (m \cdot g) = 0,2 \cdot (2 \cdot 10) = 4 \, \text{N} \).</p>
+                    <p class="mb-3">O trabalho é negativo pois se opõe ao movimento: \( W_{at} = -F_{at} \cdot d = -4 \, \text{N} \cdot 3 \, \text{m} = \) <strong class="text-blue-600">-12 J</strong></p>
+
+                    <p class="font-semibold mb-2">c) O trabalho total sobre o bloco.</p>
+                    <p>\( W_{total} = W_F + W_{at} = 15 \, \text{J} + (-12 \, \text{J}) = \) <strong class="text-blue-600">3 J</strong></p>
+                </div>
+            </div>
+
+            <!-- Questão 2 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">2) Caixa Levantada Verticalmente</h2>
+                <p class="mb-4 text-gray-700">Uma caixa de 5 kg é levantada verticalmente, com velocidade constante, por uma altura de 2 m. Calcule o trabalho realizado pela força de sustentação e pelo peso da caixa.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">Com velocidade constante, a Força de Sustentação (\(F_{sust}\)) é igual ao Peso (P). \( P = m \cdot g = 5 \cdot 10 = 50 \, \text{N} \).</p>
+                    <p class="mb-3"><strong class="font-semibold">Trabalho da Força de Sustentação:</strong> A força é na mesma direção do deslocamento. \( W_{sust} = F_{sust} \cdot h = 50 \, \text{N} \cdot 2 \, \text{m} = \) <strong class="text-blue-600">100 J</strong></p>
+                    <p><strong class="font-semibold">Trabalho da Força Peso:</strong> A força é oposta ao deslocamento. \( W_{peso} = -P \cdot h = -50 \, \text{N} \cdot 2 \, \text{m} = \) <strong class="text-blue-600">-100 J</strong></p>
+                </div>
+            </div>
+
+            <!-- Questão 3 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">3) Bloco com Velocidade Constante</h2>
+                <p class="mb-4 text-gray-700">Um estudante empurra um bloco horizontalmente com velocidade constante. A força aplicada é de 8 N, o deslocamento é de 4 m.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="font-semibold mb-2">a) Qual é o trabalho realizado pela força aplicada?</p>
+                    <p class="mb-3">\( W_{aplicada} = F \cdot d = 8 \, \text{N} \cdot 4 \, \text{m} = \) <strong class="text-blue-600">32 J</strong></p>
+                    
+                    <p class="font-semibold mb-2">b) Qual é o trabalho realizado pela força de atrito?</p>
+                    <p class="mb-3">Com velocidade constante, \( F_{atrito} = F_{aplicada} = 8 \, \text{N} \). O trabalho é negativo: \( W_{atrito} = -8 \, \text{N} \cdot 4 \, \text{m} = \) <strong class="text-blue-600">-32 J</strong></p>
+
+                    <p class="font-semibold mb-2">c) Qual é o trabalho total realizado sobre o bloco?</p>
+                    <p class="mb-3">\( W_{total} = 32 \, \text{J} + (-32 \, \text{J}) = \) <strong class="text-blue-600">0 J</strong></p>
+
+                    <p class="font-semibold mb-2">d) Qual é a variação da energia cinética do bloco?</p>
+                    <p>Pelo Teorema Trabalho-Energia, \( W_{total} = \Delta E_c \). Portanto, \( \Delta E_c = \) <strong class="text-blue-600">0 J</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Questão 4 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">4) Trabalho da Força Normal</h2>
+                <p class="mb-4 text-gray-700">Explique por que o trabalho realizado pela força normal em um corpo que se move sobre uma superfície horizontal é igual a zero.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p><strong class="font-semibold">Resposta:</strong> O trabalho é realizado apenas pela componente da força que é paralela ao deslocamento. A força normal atua perpendicularmente (ângulo de 90°) ao deslocamento horizontal. Como \( \cos(90^\circ) = 0 \), a fórmula do trabalho \( W = F \cdot d \cdot \cos(\theta) \) resulta em zero. A força normal não contribui para "empurrar" o objeto para frente nem para "freá-lo".</p>
+                </div>
+            </div>
+
+            <!-- Questão 5 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">5) Trabalho por Gráfico (Trapézio)</h2>
+                <p class="mb-4 text-gray-700">Considere um gráfico força x deslocamento formado por um trapézio, onde a força aplicada cresce linearmente de 0 a 10 N ao longo de 2 m, e permanece constante em 10 N por mais 3 m. Calcule o trabalho total realizado.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">O trabalho é numericamente igual à área sob o gráfico F x d. A figura é um trapézio.</p>
+                    <p class="mb-1"><strong class="font-semibold">Base maior (B):</strong> 5 m (deslocamento total)</p>
+                    <p class="mb-1"><strong class="font-semibold">Base menor (b):</strong> 3 m (trecho constante)</p>
+                    <p class="mb-3"><strong class="font-semibold">Altura (h):</strong> 10 N (força máxima)</p>
+                    <p>\( \text{Área} = \frac{(B + b) \cdot h}{2} = \frac{(5 + 3) \cdot 10}{2} = \frac{80}{2} = \) <strong class="text-blue-600">40 J</strong></p>
+                </div>
+            </div>
+            
+            <!-- Questão 6 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">6) Trabalho com Força em Ângulo</h2>
+                <p class="mb-4 text-gray-700">Uma força de 20 N atua sobre um objeto fazendo um ângulo de 60° com a direção do deslocamento de 5 m. Calcule o trabalho realizado por essa força.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">Usamos a fórmula \( W = F \cdot d \cdot \cos(\theta) \), onde \( \cos(60^\circ) = 0,5 \).</p>
+                    <p>\( W = 20 \, \text{N} \cdot 5 \, \text{m} \cdot 0,5 = 100 \cdot 0,5 = \) <strong class="text-blue-600">50 J</strong></p>
+                </div>
+            </div>
+            
+            <!-- Questão 7 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">7) Energia Cinética a partir do Trabalho</h2>
+                <p class="mb-4 text-gray-700">Um bloco de 1 kg parte do repouso e é puxado por uma força constante de 3 N durante um deslocamento de 6 m, sem atrito. Determine a energia cinética ao final do percurso.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">Pelo Teorema Trabalho-Energia, o trabalho total é igual à variação da energia cinética (\( W_{total} = \Delta E_c \)).</p>
+                    <p class="mb-2">\( W_{total} = F \cdot d = 3 \, \text{N} \cdot 6 \, \text{m} = 18 \, \text{J} \).</p>
+                    <p>Como o bloco parte do repouso, a energia cinética inicial é zero. Logo, a energia cinética final é igual ao trabalho total.</p>
+                    <p>\( E_{c, \text{final}} = \) <strong class="text-blue-600">18 J</strong></p>
+                </div>
+            </div>
+            
+            <!-- Questão 8 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">8) Velocidade Final a partir do Trabalho</h2>
+                <p class="mb-4 text-gray-700">Um carrinho de 4 kg, inicialmente a 2 m/s, é submetido a uma força constante de 6 N durante 5 m. Calcule a velocidade final do carrinho.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2"><strong class="font-semibold">1. Trabalho Total:</strong> \( W_{total} = F \cdot d = 6 \, \text{N} \cdot 5 \, \text{m} = 30 \, \text{J} \).</p>
+                    <p class="mb-2"><strong class="font-semibold">2. Energia Cinética Inicial:</strong> \( E_{c, \text{inicial}} = \frac{1}{2} m v_i^2 = \frac{1}{2} \cdot 4 \cdot (2)^2 = 8 \, \text{J} \).</p>
+                    <p class="mb-2"><strong class="font-semibold">3. Energia Cinética Final:</strong> \( W_{total} = E_{c, \text{final}} - E_{c, \text{inicial}} \implies 30 = E_{c, \text{final}} - 8 \implies E_{c, \text{final}} = 38 \, \text{J} \).</p>
+                    <p class="mb-2"><strong class="font-semibold">4. Velocidade Final:</strong> \( E_{c, \text{final}} = \frac{1}{2} m v_f^2 \implies 38 = \frac{1}{2} \cdot 4 \cdot v_f^2 \implies 38 = 2 \cdot v_f^2 \implies v_f = \sqrt{19} \approx \) <strong class="text-blue-600">4,36 m/s</strong>.</p>
+                </div>
+            </div>
+            
+            <!-- Questão 9 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">9) Trabalho em Rampa Inclinada</h2>
+                <p class="mb-4 text-gray-700">Um bloco de 5 kg é empurrado para cima em uma rampa inclinada 30° com a horizontal, sem atrito, por uma distância de 4 m ao longo da rampa. Determine o trabalho realizado pela força gravitacional (peso) e pela força aplicada para subir a rampa (assumindo velocidade constante).</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-3"><strong class="font-semibold">Trabalho da Força Peso:</strong> Depende da altura vertical (h). \( h = d \cdot \sin(30^\circ) = 4 \cdot 0,5 = 2 \, \text{m} \). O trabalho é negativo pois o bloco sobe. \( W_{peso} = -m \cdot g \cdot h = -5 \cdot 10 \cdot 2 = \) <strong class="text-blue-600">-100 J</strong>.</p>
+                    <p><strong class="font-semibold">Trabalho da Força Aplicada:</strong> Com velocidade constante, a força aplicada iguala a componente do peso na rampa (\(P_x\)). \( F_{aplicada} = m \cdot g \cdot \sin(30^\circ) = 5 \cdot 10 \cdot 0,5 = 25 \, \text{N} \). \( W_{aplicada} = F_{aplicada} \cdot d = 25 \, \text{N} \cdot 4 \, \text{m} = \) <strong class="text-blue-600">100 J</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Questão 10 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">10) Exemplo de Trabalho Negativo</h2>
+                <p class="mb-4 text-gray-700">Dê um exemplo em que o trabalho realizado por uma força é negativo e explique o significado físico disso.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p><strong class="font-semibold">Exemplo:</strong> A força de atrito atuando sobre um objeto que desliza até parar.</p>
+                    <p><strong class="font-semibold">Significado Físico:</strong> Trabalho negativo significa que a força está **retirando energia** do movimento do objeto. No exemplo, a força de atrito converte a energia cinética (movimento) em energia térmica (calor), fazendo com que o objeto perca velocidade.</p>
+                </div>
+            </div>
+
+            <!-- Questão 11 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">11) Trabalho por Gráfico (Triângulo)</h2>
+                <p class="mb-4 text-gray-700">Uma força variável atua sobre um corpo, de forma que o gráfico força x deslocamento é um triângulo de base 10 m e altura 6 N. Calcule o trabalho total realizado.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">O trabalho é a área do triângulo.</p>
+                    <p>\( \text{Área} = \frac{\text{base} \cdot \text{altura}}{2} = \frac{10 \, \text{m} \cdot 6 \, \text{N}}{2} = \) <strong class="text-blue-600">30 J</strong></p>
+                </div>
+            </div>
+
+            <!-- Questão 12 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">12) Trabalho Motor vs. Trabalho Resistente</h2>
+                <p class="mb-4 text-gray-700">Explique a diferença entre trabalho motor e trabalho resistente, dando exemplos de cada um.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-3"><strong class="font-semibold">Trabalho Motor:</strong> É o trabalho positivo, que **fornece energia** ao movimento. A força atua a favor do deslocamento. <strong class="font-semibold">Exemplo:</strong> A força do motor de um carro acelerando.</p>
+                    <p><strong class="font-semibold">Trabalho Resistente:</strong> É o trabalho negativo, que **retira energia** do movimento. A força atua contra o deslocamento. <strong class="font-semibold">Exemplo:</strong> A força de resistência do ar em um ciclista.</p>
+                </div>
+            </div>
+
+            <!-- Questão 13 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">13) Força e Deslocamento Perpendiculares</h2>
+                <p class="mb-4 text-gray-700">Explique por que não há trabalho realizado quando a força e o deslocamento são perpendiculares, citando um exemplo comum.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-3"><strong class="font-semibold">Explicação:</strong> Uma força só realiza trabalho se tiver uma componente na direção do deslocamento. Se a força é perpendicular (90°), ela não ajuda nem atrapalha o movimento, e seu trabalho é nulo.</p>
+                    <p><strong class="font-semibold">Exemplo:</strong> A força que um garçom faz para segurar uma bandeja (para cima) enquanto caminha horizontalmente. A força é vertical e o deslocamento é horizontal, portanto, o trabalho é zero.</p>
+                </div>
+            </div>
+
+            <!-- Questão 14 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">14) Puxando uma Mala em Ângulo</h2>
+                <p class="mb-4 text-gray-700">Uma pessoa puxa uma mala de 12 kg, aplicando uma força de 50 N formando 45° com a horizontal, arrastando-a por 10 metros no piso. Calcule o trabalho realizado pela força.</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <p class="mb-2">Usamos a fórmula \( W = F \cdot d \cdot \cos(\theta) \), onde \( \cos(45^\circ) \approx 0,707 \).</p>
+                    <p>\( W = 50 \, \text{N} \cdot 10 \, \text{m} \cdot 0,707 = 500 \cdot 0,707 \approx \) <strong class="text-blue-600">353,5 J</strong></p>
+                </div>
+            </div>
+
+            <!-- Questão 15 -->
+            <div class="bg-white p-6 rounded-lg shadow-md question-card">
+                <h2 class="text-xl font-bold mb-3">15) Conceitos de Trabalho e Energia (V ou F)</h2>
+                <p class="mb-4 text-gray-700">Sobre os conceitos de trabalho e energia, marque V (verdadeiro) ou F (falso):</p>
+                <div class="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-3">
+                    <p><strong class="text-red-600">( F )</strong> a) O trabalho realizado por uma força perpendicular ao deslocamento é sempre diferente de zero.</p>
+                    <p><strong class="text-green-600">( V )</strong> b) O trabalho é uma forma de transferência de energia.</p>
+                    <p><strong class="text-red-600">( F )</strong> c) O trabalho é sempre positivo.</p>
+                    <p><strong class="text-green-600">( V )</strong> d) O trabalho pode ser determinado pela área sob o gráfico força x deslocamento.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-10 text-gray-500 text-sm">
+            <p>&copy; 2025 Gabarito Detalhado. Todos os direitos reservados.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Script para renderizar a matemática com KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
+
+</body>
+</html>
